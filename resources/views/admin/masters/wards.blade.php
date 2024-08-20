@@ -22,6 +22,16 @@
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
                                 <div class="col-md-4">
+                                    <label class="col-form-label" for="region">region <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="region" id="region">
+                                        <option value="">Select Region</option>
+                                        @foreach ($regions as $region)
+                                            <option value="{{ $region->id }}">{{ $region->region_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger is-invalid region_err"></span>
+                                </div>
+                                <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
                                     <input class="form-control" id="initial" name="initial" type="text" placeholder="Enter Ward Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
@@ -56,6 +66,16 @@
                                     <label class="col-form-label" for="name">Ward Name <span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Ward Name">
                                     <span class="text-danger is-invalid name_err"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="region">region <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="region" id="region">
+                                        <option value="">Select Region</option>
+                                        @foreach ($regions as $region)
+                                            <option value="{{ $region->id }}">{{ $region->region_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger is-invalid region_err"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
@@ -93,30 +113,27 @@
                             <table id="buttons-datatables" class="table table-bordered nowrap align-middle" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Sr.No</th>
+                                        <th>Ward Name</th>
+                                        <th>Region Name</th>
+                                        <th>Initial</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($wards as $ward)
+                                    @foreach ($wards as $index => $ward)
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $ward->name }}</td>
+                                            <td>{{ $ward->region_name }}</td>
+                                            <td>{{ $ward->initial }}</td>
                                             <td>
                                                 <button class="edit-element btn text-secondary px-2 py-1" title="Edit ward" data-id="{{ $ward->id }}"><i data-feather="edit"></i></button>
                                                 <button class="btn text-danger rem-element px-2 py-1" title="Delete ward" data-id="{{ $ward->id }}"><i data-feather="trash-2"></i> </button>
                                             </td>
                                         </tr>
                                     @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -191,6 +208,8 @@
                     $("#editForm input[name='edit_model_id']").val(data.ward.id);
                     $("#editForm input[name='name']").val(data.ward.name);
                     $("#editForm input[name='initial']").val(data.ward.initial);
+                    $("#editForm select[name='region']").val(data.ward.region);
+                    
                 }
                 else
                 {

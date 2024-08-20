@@ -9,6 +9,7 @@ use App\Models\Ward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use App\Models\Region;
 
 
 class WardController extends Controller
@@ -18,9 +19,13 @@ class WardController extends Controller
      */
     public function index()
     {
-        $wards = Ward::latest()->get();
+        $wards = Ward::select('wards.*', 'regions.region_name')
+        ->join('regions', 'wards.region', '=', 'regions.id')
+        ->latest('wards.created_at')
+        ->get();
+        $regions = Region::latest()->get();
 
-        return view('admin.masters.wards')->with(['wards'=> $wards]);
+        return view('admin.masters.wards')->with(['wards'=> $wards, 'regions' => $regions]);
     }
 
     /**

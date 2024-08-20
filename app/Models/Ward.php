@@ -11,7 +11,7 @@ class Ward extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'initial'];
+    protected $fillable = ['name', 'initial', 'region', 'created_by_ip', 'updated_by_ip', 'deleted_by_ip'];
 
 
     public static function booted()
@@ -22,6 +22,7 @@ class Ward extends BaseModel
             {
                 self::where('id', $user->id)->update([
                     'created_by'=> Auth::user()->id,
+                    'created_by_ip'=> request()->ip(),
                 ]);
             }
         });
@@ -31,6 +32,7 @@ class Ward extends BaseModel
             {
                 self::where('id', $user->id)->update([
                     'updated_by'=> Auth::user()->id,
+                    'updated_by_ip'=> request()->ip(),
                 ]);
             }
         });
@@ -40,6 +42,7 @@ class Ward extends BaseModel
             {
                 self::where('id', $user->id)->update([
                     'deleted_by'=> Auth::user()->id,
+                    'deleted_by_ip'=> request()->ip(),
                 ]);
             }
         });
