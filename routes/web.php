@@ -48,6 +48,9 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::resource('wards', App\Http\Controllers\Admin\Masters\WardController::class);
     Route::resource('regions', App\Http\Controllers\Admin\Masters\RegionController::class);
 
+    // Scheme Details
+    Route::resource('schemes', App\Http\Controllers\SchemeDetails\SchemeDetailsController::class);
+
 
 
 

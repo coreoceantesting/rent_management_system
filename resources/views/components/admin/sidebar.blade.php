@@ -81,6 +81,13 @@
                 </li>
                 @endcan
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('schemes.index') }}" >
+                        <i class="ri-stack-fill"></i>
+                        <span data-key="t-dashboards">Scheme Details</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
