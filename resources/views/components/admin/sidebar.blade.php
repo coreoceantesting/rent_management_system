@@ -48,6 +48,9 @@
                     <div class="collapse menu-dropdown" id="sidebarLayoutsOne">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
+                                <a href="{{ route('regions.index') }}" class="nav-link" data-key="t-horizontal">Regions</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('wards.index') }}" class="nav-link" data-key="t-horizontal">Wards</a>
                             </li>
                         </ul>
