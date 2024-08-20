@@ -1,6 +1,6 @@
 <x-admin.layout>
-    <x-slot name="title">Regions LIST</x-slot>
-    <x-slot name="heading">Regions LIST</x-slot>
+    <x-slot name="title">Regions</x-slot>
+    <x-slot name="heading">Regions</x-slot>
     {{-- <x-slot name="subheading">Test</x-slot> --}}
 
 
