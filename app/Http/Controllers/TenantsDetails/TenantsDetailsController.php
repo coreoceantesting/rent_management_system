@@ -33,7 +33,8 @@ class TenantsDetailsController extends Controller
      */
     public function create()
     {
-        //
+        $scheme_list = SchemeDetail::latest()->get(['scheme_id', 'scheme_name']);
+        return view('Tenants.create')->with(['scheme_list' => $scheme_list]);
     }
 
     /**
