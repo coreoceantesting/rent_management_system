@@ -50,6 +50,9 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
 
     // Scheme Details
     Route::resource('schemes', App\Http\Controllers\SchemeDetails\SchemeDetailsController::class);
+    Route::get('/get-wards-by-region/{region_id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'getWardsByRegion']);
+
+    
 
 
 

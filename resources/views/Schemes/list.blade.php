@@ -31,13 +31,13 @@
                                     @foreach ($scheme_list as $index => $list)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $region->scheme_name }}</td>
-                                            <td>{{ $region->scheme_proposal_number }}</td>
-                                            <td>{{ $region->developer_name }}</td>
-                                            <td>{{ $region->architect_name }}</td>
+                                            <td>{{ $list->scheme_name }}</td>
+                                            <td>{{ $list->scheme_proposal_number }}</td>
+                                            <td>{{ $list->developer_name }}</td>
+                                            <td>{{ $list->architect_name }}</td>
                                             <td>
-                                                <button class="edit-element btn text-secondary px-2 py-1" title="Edit ward" data-id="{{ $region->id }}"><i data-feather="edit"></i></button>
-                                                <button class="btn text-danger rem-element px-2 py-1" title="Delete ward" data-id="{{ $region->id }}"><i data-feather="trash-2"></i> </button>
+                                                <a href="{{ route('schemes.edit', $list->id) }}" class="edit-element btn text-secondary px-2 py-1" title="Edit Scheme Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
+                                                <button class="btn text-danger rem-element px-2 py-1" title="Delete Scheme Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -56,7 +56,7 @@
     $("#buttons-datatables").on("click", ".rem-element", function(e) {
         e.preventDefault();
         swal({
-            title: "Are you sure to delete this Region?",
+            title: "Are you sure to delete this Scheme Details?",
             // text: "Make sure if you have filled Vendor details before proceeding further",
             icon: "info",
             buttons: ["Cancel", "Confirm"]
@@ -66,7 +66,7 @@
             if (justTransfer)
             {
                 var model_id = $(this).attr("data-id");
-                var url = "{{ route('regions.destroy', ":model_id") }}";
+                var url = "{{ route('schemes.destroy', ":model_id") }}";
 
                 $.ajax({
                     url: url.replace(':model_id', model_id),
