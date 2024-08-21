@@ -47,6 +47,7 @@ class SchemeDetailsController extends Controller
         {
             DB::beginTransaction();
             $input = $request->validated();
+            $input['scheme_id'] = rand(0000,9999);
             SchemeDetail::create($input);
             DB::commit();
 

@@ -15,11 +15,11 @@
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <label class="col-form-label" for="scheme_id">Scheme Id</label>
                                     <input class="form-control" id="scheme_id" name="scheme_id" type="text" placeholder="Enter Scheme Id">
                                     <span class="text-danger is-invalid scheme_id_err"></span>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="region_name">Region Name <span class="text-danger">*</span></label>
