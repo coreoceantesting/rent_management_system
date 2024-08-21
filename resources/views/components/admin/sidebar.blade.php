@@ -81,12 +81,23 @@
                 </li>
                 @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('schemes.index') }}" >
-                        <i class="ri-stack-fill"></i>
-                        <span data-key="t-dashboards">Scheme Details</span>
-                    </a>
-                </li>
+                @can('SchemeDetails.list')
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('schemes.index') }}" >
+                            <i class="ri-stack-fill"></i>
+                            <span data-key="t-dashboards">Scheme Details</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('TenantsDetails.list')
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('tenants.index') }}" >
+                            <i class="ri-file-list-fill"></i>
+                            <span data-key="t-dashboards">Tenants Details</span>
+                        </a>
+                    </li>                    
+                @endcan
 
             </ul>
         </div>

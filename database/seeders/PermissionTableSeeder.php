@@ -94,6 +94,56 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'wards.delete',
                 'group' => 'wards',
             ],
+            [
+                'id' => 17,
+                'name' => 'SchemeDetails.list',
+                'group' => 'SchemeDetails',
+            ],
+            [
+                'id' => 18,
+                'name' => 'SchemeDetails.create',
+                'group' => 'SchemeDetails',
+            ],
+            [
+                'id' => 19,
+                'name' => 'SchemeDetails.edit',
+                'group' => 'SchemeDetails',
+            ],
+            [
+                'id' => 20,
+                'name' => 'SchemeDetails.view',
+                'group' => 'SchemeDetails',
+            ],
+            [
+                'id' => 21,
+                'name' => 'SchemeDetails.delete',
+                'group' => 'SchemeDetails',
+            ],
+            [
+                'id' => 22,
+                'name' => 'TenantsDetails.list',
+                'group' => 'TenantsDetails',
+            ],
+            [
+                'id' => 23,
+                'name' => 'TenantsDetails.create',
+                'group' => 'TenantsDetails',
+            ],
+            [
+                'id' => 24,
+                'name' => 'TenantsDetails.view',
+                'group' => 'TenantsDetails',
+            ],
+            [
+                'id' => 25,
+                'name' => 'RentDetails.add',
+                'group' => 'RentDetails',
+            ],
+            [
+                'id' => 26,
+                'name' => 'RentDetails.view',
+                'group' => 'RentDetails',
+            ],
         ];
 
         foreach ($permissions as $permission)

@@ -5,17 +5,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    @can('SchemeDetails.create')
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="">
-                                        <a href="{{ route('schemes.create') }}" class="btn btn-primary">Add Schemes <i class="fa fa-plus"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                          
-                    @endcan
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="buttons-datatables" class="table table-bordered nowrap align-middle" style="width:100%">
@@ -34,19 +23,11 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $list->scheme_name }}</td>
-                                            <td>{{ $list->scheme_proposal_number }}</td>
+                                            <td><a href="{{ route('getTenants', $list->scheme_id) }}">{{ $list->scheme_proposal_number }}</a></td>
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
                                             <td>
-                                                @can('SchemeDetails.view')
-                                                    <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
-                                                @endcan
-                                                @can('SchemeDetails.edit')
-                                                    <a href="{{ route('schemes.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Scheme Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
-                                                @endcan
-                                                @can('SchemeDetails.delete')
-                                                    <a class="btn btn-sm text-danger rem-element px-2 py-1" title="Delete Scheme Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </a>     
-                                                @endcan
+                                                <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

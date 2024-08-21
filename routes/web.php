@@ -47,10 +47,15 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     // Masters
     Route::resource('wards', App\Http\Controllers\Admin\Masters\WardController::class);
     Route::resource('regions', App\Http\Controllers\Admin\Masters\RegionController::class);
+    
 
     // Scheme Details
     Route::resource('schemes', App\Http\Controllers\SchemeDetails\SchemeDetailsController::class);
     Route::get('/get-wards-by-region/{region_id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'getWardsByRegion']);
+
+    // Tenants Details
+    Route::resource('tenants', App\Http\Controllers\TenantsDetails\TenantsDetailsController::class);
+    Route::get('/get-tenants/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getTenants'])->name('getTenants');
 
     
 

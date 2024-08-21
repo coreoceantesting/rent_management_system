@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="card-footer text-center">
-            <a href="{{ route('schemes.index') }}" class="btn btn-warning">Back</a>
+            <a href="{{ url()->previous() }}" class="btn btn-info">Back</a>
         </div>
     </div>
 
