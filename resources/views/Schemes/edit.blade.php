@@ -107,7 +107,7 @@
                         </div>
 
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer text-center">
                         <button class="btn btn-primary" id="editSubmit">Submit</button>
                         <a href="{{ route('schemes.index') }}" class="btn btn-warning">Back</a>
                     </div>

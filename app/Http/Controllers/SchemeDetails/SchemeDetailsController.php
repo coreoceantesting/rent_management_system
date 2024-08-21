@@ -63,7 +63,12 @@ class SchemeDetailsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $scheme_details = SchemeDetail::select('scheme_details.*', 'wards.name', 'regions.region_name as region')
+        ->leftJoin('regions', 'scheme_details.region_name', '=', 'regions.id')
+        ->leftJoin('wards', 'scheme_details.ward_name', '=', 'wards.id')
+        ->where('scheme_details.id', $id)
+        ->first();
+        return view('Schemes.view')->with(['scheme_details' => $scheme_details]);
     }
 
     /**
