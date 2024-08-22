@@ -8,6 +8,7 @@ use App\Models\Region;
 use App\Models\Ward;
 use App\Models\SchemeDetail;
 use App\Models\TenantsDetail;
+use App\Models\RentDetail;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Admin\TenantsDetails\StoreTenantsDetailsRequest;
@@ -143,5 +144,49 @@ class TenantsDetailsController extends Controller
         ->orderBy('tenants_details.id', 'desc')
         ->get();
         return view('Tenants.list')->with(['tenants_list' => $tenants_list]);
+    }
+
+    public function addRentDetails(Request $request)
+    {
+        $validatedData = $request->validate([
+            'rent_from' => 'required|date',
+            'rent_to' => 'required|date',
+            'pay_amount' => 'required',
+        ]);
+
+        $tenant_detail = TenantsDetail::findOrFail($request->tenant_id);
+
+        $data = [
+            'tenant_id' => $request->tenant_id,
+            'scheme_id' => $tenant_detail->scheme_name,
+            'rent_from' => $request->rent_from,
+            'rent_to' => $request->rent_to,
+            'total_rent_amount'=> $tenant_detail->total_rent,
+            'pay_amount' => $request->pay_amount,
+            'created_by' => auth()->user()->id 
+        ];
+
+        RentDetail::create($data);
+
+        return response()->json(['success' => 'Rent details added successfully.']);
+    }
+
+    public function getRentHistory($tenant_id)
+    {
+        $rentDetails = RentDetail::where('tenant_id', $tenant_id)->latest()->get();
+
+        $totalPaidAmount = $rentDetails->sum('pay_amount');
+
+        $tenant = TenantsDetail::find($tenant_id);
+        $totalRent = $tenant->total_rent;
+
+        $remainingAmount = $totalRent - $totalPaidAmount;
+
+        return view('Tenants.rentDetails')->with([
+            'rentDetails' => $rentDetails,
+            'totalPaidAmount' => $totalPaidAmount,
+            'remainingAmount' => $remainingAmount,
+            'totalRent' => $totalRent
+        ]);
     }
 }

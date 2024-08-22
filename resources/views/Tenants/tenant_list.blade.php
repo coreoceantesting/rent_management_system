@@ -30,10 +30,10 @@
                                             <td>{{ $list->total_rent }}</td>
                                             <td>
                                                 @can('RentDetails.add')
-                                                    <a class="add-element btn btn-sm btn-primary px-2 py-1" title="Add Rent Details" data-id="{{ $list->id }}">Add Rent Details</a>
+                                                    <button type="button" class="btn btn-sm btn-warning" id="addDetail" data-id="{{ $list->id }}">Add Rent Details</button>
                                                 @endcan
                                                 @can('RentDetails.view')
-                                                    <a class="view-element btn btn-sm btn-secondary px-2 py-1" title="Edit Tenants Details" data-id="{{ $list->id }}">Rent History</a>
+                                                    <a href="{{ route('getRentHistory', $list->id) }}" class="btn btn-sm btn-success" id="vieDetail" data-id="{{ $list->id }}">Rent History</button>
                                                 @endcan
                                             </td>
                                         </tr>
@@ -43,8 +43,85 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Reject Remark Modal -->
+                <div class="modal fade" id="addRentDetails" tabindex="-1" aria-labelledby="addRentDetailsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="addRentDetailsModalLabel">Add Rent Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <form id="addDetailsForm">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="rent_from" class="form-label">Rent From <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="date" name="rent_from" id="rent_from" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rent_to" class="form-label">Rent to <span class="text-danger">*</span> </label>
+                                    <input class="form-control" type="date" name="rent_to" id="rent_to" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pay_amount" class="form-label">Amount <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="number" name="pay_amount" id="pay_amount" required>
+                                </div>
+                                <input type="hidden" id="tenant_id" name="tenant_id">
+                            </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="submitDetails">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
 </x-admin.layout>
 
+<script>
+    $(document).ready(function() {
+        
+        $('#addDetail').click(function() {
+            var tenantId = $(this).data('id');
+            $('#tenant_id').val(tenantId);
+            $('#addRentDetails').modal('show');
+        });
+
+        $('#submitDetails').click(function(e) {
+            e.preventDefault();
+            var formData = $('#addDetailsForm').serialize();
+            
+
+            $.ajax({
+                url: "{{ route('addRentDetails') }}",
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $('#addRentDetails').modal('hide');
+                    if(response.success) {
+                        swal("Added!", response.success, "success").then((action) => {
+                            window.location.reload();
+                        });
+                    } else {
+                        swal("Error!", response.error, "error");
+                    }
+                },
+                error: function(xhr) {
+                    var error = xhr.responseJSON.message;
+                    swal("Error!", error, "error");
+                }
+            });
+        });
+
+
+
+    });
+</script>
