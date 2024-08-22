@@ -31,7 +31,15 @@
                         <tr>
                             <th>Tenant Aadhaar No</th>
                             <td>{{ $tenant_details->aadhaar_no }}</td>
+                            <th>Rent Period</th>
+                            <td>{{ $tenant_details->rent_from }} - {{ $tenant_details->rent_to }}</td>
                         </tr>
+
+                        <tr>
+                            <th>Total Rent</th>
+                            <td>{{ $tenant_details->total_rent }}</td>
+                        </tr>
+
                     </thead>
                 </table>
             </div>

@@ -15,6 +15,7 @@
                                         <th>Scheme Name</th>
                                         <th>Eligible / Not Eligible</th>
                                         <th>Mobile Number</th>
+                                        <th>Total Rent To Pay</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -26,6 +27,7 @@
                                             <td>{{ $list->Scheme }}</td>
                                             <td>{{ $list->eligible_or_not }}</td>
                                             <td>{{ $list->mobile_no }}</td>
+                                            <td>{{ $list->total_rent }}</td>
                                             <td>
                                                 @can('RentDetails.add')
                                                     <a class="add-element btn btn-sm btn-primary px-2 py-1" title="Add Rent Details" data-id="{{ $list->id }}">Add Rent Details</a>

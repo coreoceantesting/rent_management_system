@@ -70,6 +70,24 @@
                                     <span class="text-danger is-invalid aadhaar_no_err"></span>
                                 </div>
 
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="rent_from">Rent From <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="rent_from" name="rent_from" type="date">
+                                    <span class="text-danger is-invalid rent_from_err"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="rent_to">Rent To <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="rent_to" name="rent_to" type="date">
+                                    <span class="text-danger is-invalid rent_to_err"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="total_rent">Total Rent <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="total_rent" name="total_rent" type="number" placeholder="Enter Total Rent">
+                                    <span class="text-danger is-invalid total_rent_err"></span>
+                                </div>
+
                             </div>
 
                         </div>

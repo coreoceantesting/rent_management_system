@@ -19,6 +19,9 @@ class TenantsDetail extends Model
         'residential_or_commercial',
         'mobile_no',
         'aadhaar_no',
+        'rent_from',
+        'rent_to',
+        'total_rent',
         'created_by_ip', 
         'updated_by_ip', 
         'deleted_by_ip'

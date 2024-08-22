@@ -68,6 +68,25 @@
                                 <input class="form-control" id="aadhaar_no" name="aadhaar_no" type="number" placeholder="Enter Aadhaar No" value="{{ $tenants_details->aadhaar_no }}">
                                 <span class="text-danger is-invalid aadhaar_no_err"></span>
                             </div>
+
+                            <div class="col-md-4">
+                                <label class="col-form-label" for="rent_from">Rent From <span class="text-danger">*</span></label>
+                                <input class="form-control" id="rent_from" name="rent_from" type="date" value="{{ $tenants_details->rent_from }}">
+                                <span class="text-danger is-invalid rent_from_err"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="col-form-label" for="rent_to">Rent To <span class="text-danger">*</span></label>
+                                <input class="form-control" id="rent_to" name="rent_to" type="date" value="{{ $tenants_details->rent_to }}">
+                                <span class="text-danger is-invalid rent_to_err"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="col-form-label" for="total_rent">Total Rent <span class="text-danger">*</span></label>
+                                <input class="form-control" id="total_rent" name="total_rent" type="number" placeholder="Enter Total Rent" value="{{ $tenants_details->total_rent }}">
+                                <span class="text-danger is-invalid total_rent_err"></span>
+                            </div>
+
                         </div>
 
                     </div>

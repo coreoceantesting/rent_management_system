@@ -29,6 +29,9 @@ class UpdateTenantsDetailsRequest extends FormRequest
             'residential_or_commercial' => 'required',
             'mobile_no' => 'required|digits:10',
             'aadhaar_no' => 'required|digits:12',
+            'rent_from' => 'required',
+            'rent_to' => 'required',
+            'total_rent' => 'required',
         ];
     }
 }
