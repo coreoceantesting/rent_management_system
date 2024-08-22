@@ -128,7 +128,12 @@ class TenantsDetailsController extends Controller
 
     public function getTenants($scheme_id)
     {
-        dd($scheme_id);
+        $tenants_list = TenantsDetail::select('tenants_details.*', 'scheme_details.scheme_name as Scheme')
+        ->leftJoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id')
+        ->where('tenants_details.scheme_name', $scheme_id)
+        ->orderBy('tenants_details.id', 'desc')
+        ->get();
+        return view('Tenants.tenant_list')->with(['tenants_list' => $tenants_list]);
     }
 
     public function getTenantsList()
