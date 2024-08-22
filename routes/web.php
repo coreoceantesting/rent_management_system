@@ -56,7 +56,7 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     // Tenants Details
     Route::resource('tenants', App\Http\Controllers\TenantsDetails\TenantsDetailsController::class);
     Route::get('/get-tenants/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getTenants'])->name('getTenants');
-
+    Route::get('/tenants-list', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getTenantsList'])->name('getTenantsList');
     
 
 

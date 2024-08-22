@@ -14,7 +14,7 @@
             }
 
             .bg-img{
-                background-image: url('{{ asset('admin/images/banner.jpg') }}');
+                background-image: url('{{ asset('admin/images/Slum Rehabilitation Authority renter.jpg') }}');
                 background-repeat: no-repeat;
                 background-position: 0%;
                 background-size: cover;

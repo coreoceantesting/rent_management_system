@@ -23,19 +23,19 @@
 
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="annexure_no">Annexure No <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="annexure_no" name="annexure_no" type="text" placeholder="Enter Annexure No">
+                                    <input class="form-control" id="annexure_no" name="annexure_no" type="number" placeholder="Enter Annexure No">
                                     <span class="text-danger is-invalid annexure_no_err"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="region_name">Scheme Name <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="region_name" id="region_name">
+                                    <label class="col-form-label" for="scheme_name">Scheme Name <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="scheme_name" id="scheme_name">
                                         <option value="">Select Scheme Name</option>
                                         @foreach ($scheme_list as $list)
                                             <option value="{{ $list->scheme_id  }}">{{ $list->scheme_name }}</option>   
                                         @endforeach
                                     </select>
-                                    <span class="text-danger is-invalid region_name_err"></span>
+                                    <span class="text-danger is-invalid scheme_name_err"></span>
                                 </div>
 
                                 <div class="col-md-4">
@@ -104,7 +104,7 @@
                 if (!data.error2)
                     swal("Successful!", data.success, "success")
                         .then((action) => {
-                            window.location.href = '{{ route('tenants.index') }}';
+                            window.location.href = '{{ route('getTenantsList') }}';
                         });
                 else
                     swal("Error!", data.error2, "error");

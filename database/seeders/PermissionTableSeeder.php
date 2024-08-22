@@ -144,6 +144,16 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'RentDetails.view',
                 'group' => 'RentDetails',
             ],
+            [
+                'id' => 27,
+                'name' => 'TenantsDetails.edit',
+                'group' => 'TenantsDetails',
+            ],
+            [
+                'id' => 28,
+                'name' => 'TenantsDetails.delete',
+                'group' => 'TenantsDetails',
+            ],
         ];
 
         foreach ($permissions as $permission)

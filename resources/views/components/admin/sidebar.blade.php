@@ -90,16 +90,14 @@
                     </li>
                 @endcan
 
-                @can('TenantsDetails.create')
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('tenants.create') }}" >
-                            <i class="ri-add-box-fill"></i>
-                            <span data-key="t-dashboards">Add Tenants Details</span>
-                        </a>
-                    </li>                    
-                @endcan
-
                 @can('TenantsDetails.list')
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('getTenantsList') }}" >
+                            <i class="ri-list-check"></i>
+                            <span data-key="t-dashboards">Tenants List</span>
+                        </a>
+                    </li> 
+
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="{{ route('tenants.index') }}" >
                             <i class="ri-file-list-fill"></i>
