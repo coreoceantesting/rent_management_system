@@ -13,7 +13,12 @@
                                         <th>Sr.No</th>
                                         <th>Rent From</th>
                                         <th>Rent To</th>
-                                        <th>Paid Amount</th>
+                                        <th>Monthly Rent</th>
+                                        <th>Rent Paid</th>
+                                        <th>Months</th>
+                                        <th>Percentage</th>
+                                        <th>Final Amount</th>
+                                        <th>Document</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -22,11 +27,22 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ \Carbon\Carbon::parse($list->rent_from)->format('d-m-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($list->rent_to)->format('d-m-Y') }}</td>
-                                            <td>{{ $list->pay_amount }}</td>
+                                            <td>{{ $list->monthly_rent }}</td>
+                                            <td>{{ $list->rent_paid }}</td>
+                                            <td>{{ $list->month }}</td>
+                                            <td>{{ $list->percentage }} %</td>
+                                            <td>{{ $list->calculated_amount }}</td>
+                                            <td>
+                                                @if ($list->upload_doc)
+                                                    <a href="{{ asset('storage/' . $list->upload_doc) }}" target="_blank">View Document</a>
+                                                @else
+                                                    NA
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot>
+                                {{-- <tfoot>
                                     <tr>
                                         <th colspan="3">Total Amount To Pay:</th>
                                         <th>{{ $totalRent }}</th>
@@ -39,7 +55,7 @@
                                         <th colspan="3">Balanced Amount:</th>
                                         <th>{{ $remainingAmount }}</th>
                                     </tr>
-                                </tfoot>
+                                </tfoot> --}}
                             </table>
                         </div>
                     </div>

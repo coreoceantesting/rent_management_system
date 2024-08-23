@@ -57,6 +57,7 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::resource('tenants', App\Http\Controllers\TenantsDetails\TenantsDetailsController::class);
     Route::get('/get-tenants/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getTenants'])->name('getTenants');
     Route::get('/tenants-list', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getTenantsList'])->name('getTenantsList');
+    Route::get('/create-rent-details/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'createRentHistory'])->name('createRentHistory');
     Route::post('/add-rent-details', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'addRentDetails'])->name('addRentDetails');
     Route::get('/rent-details/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistory'])->name('getRentHistory');
     

@@ -28,7 +28,7 @@
                                             <td>{{ $list->residential_or_commercial }}</td>
                                             <td>
                                                 @can('RentDetails.add')
-                                                    <button type="button" class="btn btn-sm btn-warning" id="addDetail" data-id="{{ $list->id }}">Add Rent Details</button>
+                                                    <a href="{{ route('createRentHistory', $list->id) }}" class="btn btn-sm btn-warning"  data-id="{{ $list->id }}">Add Rent Details</a>
                                                 @endcan
                                                 @can('RentDetails.view')
                                                     <a href="{{ route('getRentHistory', $list->id) }}" class="btn btn-sm btn-success" id="vieDetail" data-id="{{ $list->id }}">Rent History</button>
