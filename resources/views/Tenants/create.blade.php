@@ -94,6 +94,7 @@
                         <div class="card-footer text-center">
                             <button type="submit" class="btn btn-primary" id="addSubmit">Submit</button>
                             <button type="reset" class="btn btn-warning">Reset</button>
+                            <a href="{{ route('getTenantsList') }}" class="btn btn-info">Back</a>
                         </div>
                     </form>
                 </div>

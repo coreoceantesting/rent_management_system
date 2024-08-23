@@ -32,9 +32,21 @@
 
                             <div class="col-md-4 mt-3">
                                 <label class="col-form-label" for="mobile">User Mobile <span class="text-danger">*</span></label>
-                                <input class="form-control" id="mobile" name="mobile" type="number" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                <input class="form-control" name="mobile" type="number" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
                                     placeholder="Enter User Mobile">
                                 <span class="text-danger is-invalid mobile_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
+                                <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward">
+                                <span class="text-danger is-invalid ward_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
+                                <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area">
+                                <span class="text-danger is-invalid area_err"></span>
                             </div>
 
                             <div class="col-md-4 mt-3">
@@ -105,6 +117,18 @@
                                 <input class="form-control" name="mobile" type="number" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
                                     placeholder="Enter User Mobile">
                                 <span class="text-danger is-invalid mobile_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
+                                <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward">
+                                <span class="text-danger is-invalid ward_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
+                                <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area">
+                                <span class="text-danger is-invalid area_err"></span>
                             </div>
 
                             <div class="col-md-4 mt-3">
@@ -447,6 +471,8 @@
                 if (!data.error) {
                     $("#editForm input[name='edit_model_id']").val(data.user.id);
                     $("#editForm input[name='dob']").val(data.user.dob);
+                    $("#editForm input[name='area']").val(data.user.area);
+                    $("#editForm input[name='ward']").val(data.user.ward);
                     data.user.gender == 'm' ? $("#editForm input[name='gender'][value='m']").prop("checked", true) : $("#editForm input[name='gender'][value='f']").prop("checked", true);
                     $("#editForm select[name='role']").html(data.roleHtml);
                     $("#editForm input[name='name']").val(data.user.name);
