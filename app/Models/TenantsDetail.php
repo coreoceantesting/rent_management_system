@@ -22,6 +22,11 @@ class TenantsDetail extends Model
         'rent_from',
         'rent_to',
         'total_rent',
+        'demolished_date',
+        'bank_account_no',
+        'bank_name',
+        'ifsc_code',
+        'branch_name',
         'created_by_ip', 
         'updated_by_ip', 
         'deleted_by_ip'

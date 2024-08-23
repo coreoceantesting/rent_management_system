@@ -58,33 +58,33 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label class="col-form-label" for="mobile_no">Mobile No<span class="text-danger">*</span></label>
-                                <input class="form-control" id="mobile_no" name="mobile_no" type="number" placeholder="Enter Mobile No" value="{{ $tenants_details->mobile_no }}">
-                                <span class="text-danger is-invalid mobile_no_err"></span>
+                                <label class="col-form-label" for="demolished_date">Structure Demolished Date<span class="text-danger">*</span></label>
+                                <input class="form-control" id="demolished_date" name="demolished_date" type="date" value="{{ $tenants_details->demolished_date }}">
+                                <span class="text-danger is-invalid demolished_date_err"></span>
                             </div>
 
                             <div class="col-md-4">
-                                <label class="col-form-label" for="aadhaar_no">Aadhaar No <span class="text-danger">*</span></label>
-                                <input class="form-control" id="aadhaar_no" name="aadhaar_no" type="number" placeholder="Enter Aadhaar No" value="{{ $tenants_details->aadhaar_no }}">
-                                <span class="text-danger is-invalid aadhaar_no_err"></span>
+                                <label class="col-form-label" for="bank_account_no">Bank Account No<span class="text-danger">*</span></label>
+                                <input class="form-control" id="bank_account_no" name="bank_account_no" type="text" placeholder="Enter Bank Account No" value="{{ $tenants_details->bank_account_no }}">
+                                <span class="text-danger is-invalid bank_account_no_err"></span>
                             </div>
 
                             <div class="col-md-4">
-                                <label class="col-form-label" for="rent_from">Rent From <span class="text-danger">*</span></label>
-                                <input class="form-control" id="rent_from" name="rent_from" type="date" value="{{ $tenants_details->rent_from }}">
-                                <span class="text-danger is-invalid rent_from_err"></span>
+                                <label class="col-form-label" for="bank_name">Bank Name<span class="text-danger">*</span></label>
+                                <input class="form-control" id="bank_name" name="bank_name" type="text" placeholder="Enter Bank Name" value="{{ $tenants_details->bank_name }}">
+                                <span class="text-danger is-invalid bank_name_err"></span>
                             </div>
 
                             <div class="col-md-4">
-                                <label class="col-form-label" for="rent_to">Rent To <span class="text-danger">*</span></label>
-                                <input class="form-control" id="rent_to" name="rent_to" type="date" value="{{ $tenants_details->rent_to }}">
-                                <span class="text-danger is-invalid rent_to_err"></span>
+                                <label class="col-form-label" for="ifsc_code">IFSC code<span class="text-danger">*</span></label>
+                                <input class="form-control" id="ifsc_code" name="ifsc_code" type="text" placeholder="Enter IFSC code" value="{{ $tenants_details->ifsc_code }}">
+                                <span class="text-danger is-invalid ifsc_code_err"></span>
                             </div>
 
                             <div class="col-md-4">
-                                <label class="col-form-label" for="total_rent">Total Rent <span class="text-danger">*</span></label>
-                                <input class="form-control" id="total_rent" name="total_rent" type="number" placeholder="Enter Total Rent" value="{{ $tenants_details->total_rent }}">
-                                <span class="text-danger is-invalid total_rent_err"></span>
+                                <label class="col-form-label" for="branch_name">Branch Name<span class="text-danger">*</span></label>
+                                <input class="form-control" id="branch_name" name="branch_name" type="text" placeholder="Enter Branch Name" value="{{ $tenants_details->branch_name }}">
+                                <span class="text-danger is-invalid branch_name_err"></span>
                             </div>
 
                         </div>

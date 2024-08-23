@@ -25,19 +25,21 @@
                         <tr>
                             <th>Residential / Commercial</th>
                             <td>{{ $tenant_details->residential_or_commercial }}</td>
-                            <th>Tenant Mobile No</th>
-                            <td>{{ $tenant_details->mobile_no }}</td>
+                            <th>Structure Demolished Date</th>
+                            <td>{{ $tenant_details->demolished_date }}</td>
                         </tr>
                         <tr>
-                            <th>Tenant Aadhaar No</th>
-                            <td>{{ $tenant_details->aadhaar_no }}</td>
-                            <th>Rent Period</th>
-                            <td>{{ $tenant_details->rent_from }} - {{ $tenant_details->rent_to }}</td>
+                            <th>Bank Account Number</th>
+                            <td>{{ $tenant_details->bank_account_no }}</td>
+                            <th>Bank Name</th>
+                            <td>{{ $tenant_details->bank_name }}</td>
                         </tr>
 
                         <tr>
-                            <th>Total Rent</th>
-                            <td>{{ $tenant_details->total_rent }}</td>
+                            <th>IfSC Code</th>
+                            <td>{{ $tenant_details->ifsc_code }}</td>
+                            <th>Branch Name</th>
+                            <td>{{ $tenant_details->branch_name }}</td>
                         </tr>
 
                     </thead>

@@ -14,8 +14,7 @@
                                         <th>Name Of Tenants</th>
                                         <th>Scheme Name</th>
                                         <th>Eligible / Not Eligible</th>
-                                        <th>Mobile Number</th>
-                                        <th>Total Rent To Pay</th>
+                                        <th>Residential / Commercial</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -26,8 +25,7 @@
                                             <td>{{ $list->name_of_tenant }}</td>
                                             <td>{{ $list->Scheme }}</td>
                                             <td>{{ $list->eligible_or_not }}</td>
-                                            <td>{{ $list->mobile_no }}</td>
-                                            <td>{{ $list->total_rent }}</td>
+                                            <td>{{ $list->residential_or_commercial }}</td>
                                             <td>
                                                 @can('RentDetails.add')
                                                     <button type="button" class="btn btn-sm btn-warning" id="addDetail" data-id="{{ $list->id }}">Add Rent Details</button>
