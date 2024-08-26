@@ -127,6 +127,9 @@
                             <img src="{{ asset('admin/images/Group 1 copy 2.png') }}" style="width: 50%;">
                         </div>
                         <div class="text-center mt-3">
+                            <h2><b>Disbursement Management System</b></h2>
+                        </div>
+                        <div class="text-center mt-3">
                             <h4>लॉगिन मध्ये आपले स्वागत आहे </h4>
                         </div>
                         <div class="container custompadding">
