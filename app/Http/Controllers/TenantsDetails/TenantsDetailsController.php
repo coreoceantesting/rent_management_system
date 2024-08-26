@@ -225,4 +225,158 @@ class TenantsDetailsController extends Controller
             'totalRent' => $totalRent
         ]);
     }
+
+    // approval functions
+    public function approvedByFinance($id)
+    {
+        try {
+
+            // Update the status
+            DB::table('tenants_details')->where('id', $id)->update([
+                'finance_approval' => 'Approved',
+                'finance_approval_by' => auth()->user()->id,
+                'finance_approval_at' => now()
+            ]);
+
+            return response()->json(['success' => 'Tenant approved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error approving tenant.'], 500);
+        }
+    }
+
+    public function approvedByCollector($id)
+    {
+        try {
+
+            // Update the status
+            DB::table('tenants_details')->where('id', $id)->update([
+                'overall_status' => 'Approved',
+                'collector_approval' => 'Approved',
+                'collector_approval_by' => auth()->user()->id,
+                'collector_approval_at' => now()
+            ]);
+
+            return response()->json(['success' => 'Tenant approved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error approving tenant.'], 500);
+        }
+    }
+
+    public function rejectedByFinance(Request $request, $id)
+    {
+        try {
+            // $tenantId = $request->remarkByFinanceId;
+            // $remark = $request->remarkByFinance; 
+
+            DB::table('tenants_details')->where('id', $id)->update([
+                'overall_status' => 'Rejected',
+                'finance_approval' => 'Rejected',
+                // 'finance_approval_remark' => $remark,
+                'finance_approval_by' => auth()->user()->id,
+                'finance_approval_at' => now()
+            ]);
+
+
+            return response()->json(['success' => 'Tenants rejected successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
+
+    public function rejectedByCollector(Request $request, $id)
+    {
+        try {
+            // $tenantId = $request->remarkByFinanceId;
+            // $remark = $request->remarkByFinance; 
+
+            DB::table('tenants_details')->where('id', $id)->update([
+                'overall_status' => 'Rejected',
+                'collector_approval' => 'Rejected',
+                'collector_approval_by' => auth()->user()->id,
+                'collector_approval_at' => now()
+            ]);
+
+
+            return response()->json(['success' => 'Tenants rejected successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
+
+    //Rent approval functions
+    public function approvedRentByFinance($id)
+    {
+        try {
+
+            // Update the status
+            DB::table('rent_details')->where('id', $id)->update([
+                'finance_approval' => 'Approved',
+                'finance_approval_by' => auth()->user()->id,
+                'finance_approval_at' => now()
+            ]);
+
+            return response()->json(['success' => 'Tenant rent approved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error approving tenant.'], 500);
+        }
+    }
+
+    public function approvedRentByCollector($id)
+    {
+        try {
+
+            // Update the status
+            DB::table('rent_details')->where('id', $id)->update([
+                'overall_status' => 'Approved',
+                'collector_approval' => 'Approved',
+                'collector_approval_by' => auth()->user()->id,
+                'collector_approval_at' => now()
+            ]);
+
+            return response()->json(['success' => 'Tenant rent approved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error approving tenant.'], 500);
+        }
+    }
+
+    public function rejectedRentByFinance(Request $request, $id)
+    {
+        try {
+            // $tenantId = $request->remarkByFinanceId;
+            // $remark = $request->remarkByFinance; 
+
+            DB::table('rent_details')->where('id', $id)->update([
+                'overall_status' => 'Rejected',
+                'finance_approval' => 'Rejected',
+                // 'finance_approval_remark' => $remark,
+                'finance_approval_by' => auth()->user()->id,
+                'finance_approval_at' => now()
+            ]);
+
+
+            return response()->json(['success' => 'Tenants rent rejected successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
+
+    public function rejectedRentByCollector(Request $request, $id)
+    {
+        try {
+            // $tenantId = $request->remarkByFinanceId;
+            // $remark = $request->remarkByFinance; 
+
+            DB::table('rent_details')->where('id', $id)->update([
+                'overall_status' => 'Rejected',
+                'collector_approval' => 'Rejected',
+                'collector_approval_by' => auth()->user()->id,
+                'collector_approval_at' => now()
+            ]);
+
+
+            return response()->json(['success' => 'Tenants rent rejected successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
 }

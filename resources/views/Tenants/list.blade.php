@@ -26,6 +26,7 @@
                                         <th>Scheme Name</th>
                                         <th>Eligible / Not Eligible</th>
                                         <th>Residential / Commercial</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -37,6 +38,7 @@
                                             <td>{{ $list->Scheme }}</td>
                                             <td>{{ $list->eligible_or_not }}</td>
                                             <td>{{ $list->residential_or_commercial }}</td>
+                                            <td>{{ $list->overall_status }}</td>
                                             <td>
                                                 @can('TenantsDetails.view')
                                                     <a href="{{ route('tenants.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Tenants Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>

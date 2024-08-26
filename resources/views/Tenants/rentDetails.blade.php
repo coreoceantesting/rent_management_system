@@ -21,6 +21,7 @@
                                         <th>Percentage</th>
                                         <th>Final Amount</th>
                                         <th>Document</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,6 +42,24 @@
                                                     <a href="{{ asset('storage/' . $list->upload_doc) }}" target="_blank">View Document</a>
                                                 @else
                                                     NA
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'Finance' || auth()->user()->roles->pluck('name')[0] == 'Collector')
+                                                    @if ($list->overall_status == "Pending")
+                                                        @if ($list->finance_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Finance')
+                                                            <button type="button" class="btn btn-success btn-sm" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
+                                                        @endif
+                                                        @if ($list->finance_approval == "Approved" && $list->collector_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Collector')
+                                                            <button type="button" class="btn btn-success btn-sm" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button>
+                                                        @endif
+                                                    @else
+                                                        {{ $list->overall_status }}  
+                                                    @endif
+                                                @else
+                                                    {{ $list->overall_status }}
                                                 @endif
                                             </td>
                                         </tr>
@@ -68,3 +87,159 @@
         </div>
 
 </x-admin.layout>
+
+{{-- approved tenant rent detail by Finance --}}
+<script>
+    $("#approvedByFinance").on("click", function(e) {
+        e.preventDefault();
+        swal({
+            title: "Are you sure to approve this tenants rent?",
+            icon: "info",
+            buttons: ["Cancel", "Confirm"]
+        })
+        .then((willApprove) => {
+            if (willApprove) {
+                var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
+                var url = "{{ route('approvedRentByFinance', ":model_id") }}";
+
+                $.ajax({
+                    url: url.replace(':model_id', model_id),
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swal("Success!", data.success, "success")
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                        } else {
+                            swal("Error!", data.error, "error");
+                        }
+                    },
+                    error: function(error) {
+                        swal("Error!", "Something went wrong", "error");
+                    },
+                });
+            }
+        });
+    });
+</script>
+
+{{-- approved tenant rent detail by Collector --}}
+<script>
+    $("#approvedByCollector").on("click", function(e) {
+        e.preventDefault();
+        swal({
+            title: "Are you sure to approve this tenants rent?",
+            icon: "info",
+            buttons: ["Cancel", "Confirm"]
+        })
+        .then((willApprove) => {
+            if (willApprove) {
+                var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
+                var url = "{{ route('approvedRentByCollector', ":model_id") }}";
+
+                $.ajax({
+                    url: url.replace(':model_id', model_id),
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swal("Success!", data.success, "success")
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                        } else {
+                            swal("Error!", data.error, "error");
+                        }
+                    },
+                    error: function(error) {
+                        swal("Error!", "Something went wrong", "error");
+                    },
+                });
+            }
+        });
+    });
+</script>
+
+{{-- reject Tenants rent detail By Finance--}}
+<script>
+    $("#rejectByFinance").on("click", function(e) {
+        e.preventDefault();
+        swal({
+            title: "Are you sure to reject this tenants rent?",
+            icon: "info",
+            buttons: ["Cancel", "Confirm"]
+        })
+        .then((willApprove) => {
+            if (willApprove) {
+                var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
+                var url = "{{ route('rejectedRentByFinance', ":model_id") }}";
+
+                $.ajax({
+                    url: url.replace(':model_id', model_id),
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swal("Success!", data.success, "success")
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                        } else {
+                            swal("Error!", data.error, "error");
+                        }
+                    },
+                    error: function(error) {
+                        swal("Error!", "Something went wrong", "error");
+                    },
+                });
+            }
+        });
+    });
+</script>
+
+{{-- reject Tenants rent detail By Collector--}}
+<script>
+    $("#rejectByCollector").on("click", function(e) {
+        e.preventDefault();
+        swal({
+            title: "Are you sure to reject this tenants rent?",
+            icon: "info",
+            buttons: ["Cancel", "Confirm"]
+        })
+        .then((willApprove) => {
+            if (willApprove) {
+                var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
+                var url = "{{ route('rejectedRentByCollector', ":model_id") }}";
+
+                $.ajax({
+                    url: url.replace(':model_id', model_id),
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swal("Success!", data.success, "success")
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                        } else {
+                            swal("Error!", data.error, "error");
+                        }
+                    },
+                    error: function(error) {
+                        swal("Error!", "Something went wrong", "error");
+                    },
+                });
+            }
+        });
+    });
+</script>
