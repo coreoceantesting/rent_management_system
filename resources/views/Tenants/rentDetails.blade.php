@@ -11,6 +11,8 @@
                                 <thead>
                                     <tr>
                                         <th>Sr.No</th>
+                                        <th>Tenant Name</th>
+                                        <th>Scheme Name</th>
                                         <th>Rent From</th>
                                         <th>Rent To</th>
                                         <th>Monthly Rent</th>
@@ -25,6 +27,8 @@
                                     @foreach ($rentDetails as $index => $list)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $list->name_of_tenant }}</td>
+                                            <td>{{ $list->scheme_name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($list->rent_from)->format('d-m-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($list->rent_to)->format('d-m-Y') }}</td>
                                             <td>{{ $list->monthly_rent }}</td>

@@ -205,7 +205,11 @@ class TenantsDetailsController extends Controller
 
     public function getRentHistory($tenant_id)
     {
-        $rentDetails = RentDetail::where('tenant_id', $tenant_id)->latest()->get();
+        $rentDetails = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->leftjoin('scheme_details', 'rent_details.scheme_id', '=', 'scheme_details.scheme_id')
+        ->where('tenant_id', $tenant_id)
+        ->orderBy('rent_details.id', 'desc')
+        ->get(['rent_details.*', 'scheme_details.scheme_name', 'tenants_details.name_of_tenant']);
 
         $totalPaidAmount = $rentDetails->sum('pay_amount');
 
