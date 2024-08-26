@@ -7,6 +7,7 @@
         <link rel="shortcut icon" href="{{ asset('admin/images/Group 1.png') }}">
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
         <style>
             body{
                 background-color: #f0f8ff;
@@ -148,16 +149,86 @@
 
                                 <div class="mt-4 text-center">
                                     <button class="btn btn-primary w-40" type="submit" id="loginForm_submit">Sign In</button>
+                                    <p class="mt-3">Don't Have An Account ? <a class="text-primary signUp" style="cursor: pointer;"> Signup </a> </small>
                                 </div>
                             </form>
                         </div>
                     </div>
+
+                    <!-- Signup Modal -->
+                    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="signupModalLabel">Signup For Contractor</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="signupForm">
+                                        @csrf
+                                        <!-- Form Fields -->
+                                        <div class="mb-1 row">
+
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="name">User Name <span class="text-danger">*</span></label>
+                                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter User Name">
+                                                <span class="text-danger is-invalid name_err"></span>
+                                            </div>
+                
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="email">User Email <span class="text-danger">*</span></label>
+                                                <input class="form-control" id="email" name="email" type="email" placeholder="Enter User Email">
+                                                <span class="text-danger is-invalid email_err"></span>
+                                            </div>
+                
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="mobile">User Mobile <span class="text-danger">*</span></label>
+                                                <input class="form-control" name="mobile" type="number" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                                    placeholder="Enter User Mobile">
+                                                <span class="text-danger is-invalid mobile_err"></span>
+                                            </div>
+                
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
+                                                <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward">
+                                                <span class="text-danger is-invalid ward_err"></span>
+                                            </div>
+                
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
+                                                <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area">
+                                                <span class="text-danger is-invalid area_err"></span>
+                                            </div>
+                
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="password">Password <span class="text-danger">*</span></label>
+                                                <input class="form-control" id="password" name="password" type="password" placeholder="********">
+                                                <span class="text-danger is-invalid password_err"></span>
+                                            </div>
+                
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-form-label" for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
+                                                <input class="form-control" id="confirm_password" name="confirm_password" type="password" placeholder="********">
+                                                <span class="text-danger is-invalid confirm_password_err"></span>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary mt-2" id="submitForm">SignUp</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </section>
 
         <script src="{{ asset('admin/js/jquery.min.js') }}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ asset('admin/js/sweetalert.min.js') }}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             $("#loginForm").submit(function(e) {
                 e.preventDefault();
@@ -206,6 +277,73 @@
                         $('#preloader').css('opacity', '0');
                         $('#preloader').css('visibility', 'hidden');
                     },
+                });
+
+                function resetErrors() {
+                    var form = document.getElementById('loginForm');
+                    var data = new FormData(form);
+                    for (var [key, value] of data) {
+                        console.log(key, value)
+                        $('.' + key + '_err').text('');
+                        $('#' + key).removeClass('is-invalid');
+                        $('#' + key).addClass('is-valid');
+                    }
+                }
+
+                function printErrMsg(msg) {
+                    $.each(msg, function(key, value) {
+                        console.log(key);
+                        $('.' + key + '_err').text(value);
+                        $('#' + key).addClass('is-invalid');
+                    });
+                }
+
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.signUp').click(function() {
+                    $('#signupModal').modal('show');
+                    // alert('hii');
+                });
+            });
+        </script>
+
+        {{-- submit signup Form --}}
+        <script>
+            $("#signupForm").submit(function(e) {
+                e.preventDefault();
+                // $("#submitForm").prop('disabled', true);
+
+                var formdata = new FormData(this);
+                $.ajax({
+                    url: '{{ route('storeRegistration') }}',
+                    type: 'POST',
+                    data: formdata,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        $("#submitForm").prop('disabled', false);
+                        if (!data.error2)
+                            swal("Successful!", data.success, "success")
+                            .then((action) => {
+                                window.location.reload();
+                            });
+                        else
+                            swal("Error!", data.error2, "error");
+                    },
+                    statusCode: {
+                        422: function(responseObject, textStatus, jqXHR) {
+                            $("#addSubmit").prop('disabled', false);
+                            resetErrors();
+                            printErrMsg(responseObject.responseJSON.errors);
+                        },
+                        500: function(responseObject, textStatus, errorThrown) {
+                            $("#addSubmit").prop('disabled', false);
+                            swal("Error occured!", "Something went wrong please try again", "error");
+                        }
+                    }
                 });
 
                 function resetErrors() {

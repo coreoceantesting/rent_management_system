@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -126,6 +126,39 @@ class AuthController extends Controller
         else
         {
             return response()->json(['error'=>$validator->errors()]);
+        }
+    }
+
+    public function storeRegistration(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'email' => 'required|unique:users,email|email',
+                'mobile' => 'required|unique:users,mobile|digits:10',
+                'area' => 'required',
+                'ward' => 'required',
+                'password' => 'required|min:8',
+                'confirm_password' => 'required|same:password',
+            ]);
+
+            // Check if the validation fails
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            DB::beginTransaction();
+            $input = $validator->validated();
+            $input['password'] = Hash::make($input['password']);
+            $user = User::create($input);
+            DB::table('model_has_roles')->insert(['role_id'=> '6', 'model_type'=> 'App\Models\User', 'model_id'=> $user->id]);
+            DB::commit();
+            return response()->json(['success'=> 'User created successfully!']);
+        }
+        catch(\Exception $e)
+        {
+            return $this->respondWithAjax($e, 'creating', 'User');
         }
     }
 
