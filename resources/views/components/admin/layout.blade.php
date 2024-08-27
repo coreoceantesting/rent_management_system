@@ -9,7 +9,7 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
 
-    <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('admin/images/Group 1 copy 2.png') }}">
     <!--datatable css-->
     <link rel="stylesheet" href="{{ asset('admin/datatables/1.11.5/css/dataTables.bootstrap5.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/datatables/responsive/2.2.9/css/responsive.bootstrap.min.css') }}" />
