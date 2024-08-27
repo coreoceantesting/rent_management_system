@@ -54,18 +54,18 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-animate">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="card card-animate" style="background-color: seashell;">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="fw-medium text-muted mb-0">
-                                            Users
+                                        <p class="fw-medium mb-0">
+                                            Total Scheme
                                         </p>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value" data-target="28.05">0</span>k
+                                            <span class="counter-value" data-target="{{ $schemesCount }}">{{ $schemesCount }}</span>
                                         </h2>
-                                        <p class="mb-0 text-muted">
+                                        <p class="mb-0 text-muted d-none">
                                             <span class="badge bg-light text-success mb-0"><i class="ri-arrow-up-line align-middle"></i>
                                                 16.24 %
                                             </span>
@@ -88,18 +88,18 @@
                     </div>
                     <!-- end col-->
 
-                    <div class="col-md-6">
-                        <div class="card card-animate">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="card card-animate bg-warning">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="fw-medium text-muted mb-0">
-                                            Sessions
+                                        <p class="fw-medium mb-0">
+                                            Total Tenants
                                         </p>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value" data-target="97.66">0</span>k
+                                            <span class="counter-value" data-target="{{ $tenantsCount }}">{{ $tenantsCount }}</span>
                                         </h2>
-                                        <p class="mb-0 text-muted">
+                                        <p class="mb-0 text-muted d-none">
                                             <span class="badge bg-light text-danger mb-0">
                                                 <i class="ri-arrow-down-line align-middle"></i>
                                                 3.96 %
@@ -125,7 +125,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-none">
                         <div class="card card-animate">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
@@ -162,7 +162,7 @@
                     </div>
                     <!-- end col-->
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-none">
                         <div class="card card-animate">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
@@ -196,6 +196,48 @@
                         <!-- end card-->
                     </div>
                     <!-- end col-->
+
+                    {{-- new col start --}}
+                    <div class="col-md-6 col-sm-12">
+                        <table class="table table-bordered">
+                            <thead style="background-color: mediumaquamarine;">
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Scheme Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schemeDetails as $index => $detail)     
+                                    <tr>
+                                        <td scope="row">{{ $index + 1 }}</td>
+                                        <td>{{ $detail->scheme_name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                        <table class="table table-bordered">
+                            <thead style="background-color: burlywood;">
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Tenant Name</th>
+                                    <th>Scheme Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($tenantsDetails as $index => $detail)     
+                                    <tr>
+                                        <td scope="row">{{ $index + 1 }}</td>
+                                        <td>{{ $detail->name_of_tenant }}</td>
+                                        <td>{{ $detail->scheme_name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>

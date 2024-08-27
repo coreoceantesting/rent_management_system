@@ -39,23 +39,24 @@
                     </a>
                 </li>
 
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarLayoutsOne" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-                        <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Masters</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarLayoutsOne">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('regions.index') }}" class="nav-link" data-key="t-horizontal">Regions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('wards.index') }}" class="nav-link" data-key="t-horizontal">Wards</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                @canany(['wards.view', 'wards.create'])
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarLayoutsOne" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                            <i class="ri-layout-3-line"></i>
+                            <span data-key="t-layouts">Masters</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarLayoutsOne">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('regions.index') }}" class="nav-link" data-key="t-horizontal">Regions</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('wards.index') }}" class="nav-link" data-key="t-horizontal">Wards</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
 
 
                 @canany(['users.view', 'roles.view'])
