@@ -63,7 +63,7 @@
                         </div>
                         <div class="card-footer text-center">
                             <button type="submit" class="btn btn-primary" id="addSubmit">Submit</button>
-                            <button type="reset" class="btn btn-warning">Reset</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-warning">Back</a>
                         </div>
                     </form>
                 </div>

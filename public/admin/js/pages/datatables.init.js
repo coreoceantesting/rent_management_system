@@ -28,6 +28,7 @@ function initializeTables() {
         new DataTable("#buttons-datatables", {
             paging: !0,
             // pagingType: "full_numbers",
+            responsive: true,
             dom: "Blfrtip",
             buttons: ["copy", "csv", "excel", "print", "pdf"],
         }),
