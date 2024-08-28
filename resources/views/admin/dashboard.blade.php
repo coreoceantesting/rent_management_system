@@ -199,7 +199,7 @@
 
                     {{-- new col start --}}
                     <div class="col-md-6 col-sm-12">
-                        <table class="table table-bordered">
+                        <table id="buttons-datatables-new" class="table table-bordered">
                             <thead style="background-color: mediumaquamarine;">
                                 <tr>
                                     <th>Sr.No</th>
@@ -218,7 +218,7 @@
                     </div>
 
                     <div class="col-md-6 col-sm-12">
-                        <table class="table table-bordered">
+                        <table id="buttons-datatables-new-2" class="table table-bordered">
                             <thead style="background-color: burlywood;">
                                 <tr>
                                     <th>Sr.No</th>
@@ -353,3 +353,8 @@
     @endpush
 
 </x-admin.layout>
+<script>
+    $(document).ready( function () {
+    $('#buttons-datatables-new,#buttons-datatables-new-2').DataTable();
+} );
+</script>

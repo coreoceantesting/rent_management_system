@@ -86,7 +86,7 @@
                         if (data.success) {
                             swal("Success!", data.success, "success")
                                 .then(() => {
-                                    window.location.reload();
+                                    window.location.href = '{{ route('getTenantsList') }}';
                                 });
                         } else {
                             swal("Error!", data.error, "error");
@@ -125,7 +125,7 @@
                         if (data.success) {
                             swal("Success!", data.success, "success")
                                 .then(() => {
-                                    window.location.reload();
+                                    window.location.href = '{{ route('getTenantsList') }}';
                                 });
                         } else {
                             swal("Error!", data.error, "error");
@@ -164,7 +164,7 @@
                         if (data.success) {
                             swal("Success!", data.success, "success")
                                 .then(() => {
-                                    window.location.reload();
+                                    window.location.href = '{{ route('getTenantsList') }}';
                                 });
                         } else {
                             swal("Error!", data.error, "error");
@@ -203,7 +203,7 @@
                         if (data.success) {
                             swal("Success!", data.success, "success")
                                 .then(() => {
-                                    window.location.reload();
+                                    window.location.href = '{{ route('getTenantsList') }}';
                                 });
                         } else {
                             swal("Error!", data.error, "error");
