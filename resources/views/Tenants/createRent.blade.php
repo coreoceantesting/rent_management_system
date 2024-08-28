@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="percentage" class="form-label">Percentage(%) <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="number" name="percentage" id="percentage" placeholder="Enter Percentage" required>
+                                    <input class="form-control" type="number" name="percentage" id="percentage" placeholder="Enter Percentage" value="0" required>
                                 </div>
 
                                 <div class="col-md-4">
