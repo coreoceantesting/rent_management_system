@@ -206,7 +206,7 @@
                             </div>
                             <div class="card-body">
                                 <table id="buttons-datatables-new" class="table table-bordered">
-                                    <thead style="background-color: mediumaquamarine;">
+                                    <thead style="background-color: #e9f0ee;">
                                         <tr>
                                             <th>Sr.No</th>
                                             <th>Scheme Name</th>
@@ -233,7 +233,7 @@
                             </div>
                             <div class="card-body">
                                 <table id="buttons-datatables-new-2" class="table table-bordered">
-                                    <thead style="background-color: burlywood;">
+                                    <thead style="background-color: #e9f0ee;">
                                         <tr>
                                             <th>Sr.No</th>
                                             <th>Tenant Name</th>
