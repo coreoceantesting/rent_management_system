@@ -42,6 +42,13 @@
                             <td>{{ $tenant_details->branch_name }}</td>
                         </tr>
 
+                        <tr>
+                            <th>Finance Department Approval</th>
+                            <td>{{ $tenant_details->finance_approval }}</td>
+                            <th>DY Collector Approval</th>
+                            <td>{{ $tenant_details->collector_approval }}</td>
+                        </tr>
+
                     </thead>
                 </table>
             </div>
