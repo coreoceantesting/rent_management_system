@@ -173,13 +173,13 @@
                                         <div class="mb-1 row">
 
                                             <div class="col-md-6 mt-2">
-                                                <label class="col-form-label" for="name">User Name <span class="text-danger">*</span></label>
+                                                <label class="col-form-label" for="name">Contractor Name <span class="text-danger">*</span></label>
                                                 <input class="form-control" id="name" name="name" type="text" placeholder="Enter User Name">
                                                 <span class="text-danger is-invalid name_err"></span>
                                             </div>
                 
                                             <div class="col-md-6 mt-2">
-                                                <label class="col-form-label" for="email">User Email <span class="text-danger">*</span></label>
+                                                <label class="col-form-label" for="email">User Name / Email <span class="text-danger">*</span></label>
                                                 <input class="form-control" id="email" name="email" type="email" placeholder="Enter User Email">
                                                 <span class="text-danger is-invalid email_err"></span>
                                             </div>

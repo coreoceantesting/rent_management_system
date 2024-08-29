@@ -199,43 +199,60 @@
 
                     {{-- new col start --}}
                     <div class="col-md-6 col-sm-12">
-                        <table id="buttons-datatables-new" class="table table-bordered">
-                            <thead style="background-color: mediumaquamarine;">
-                                <tr>
-                                    <th>Sr.No</th>
-                                    <th>Scheme Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($schemeDetails as $index => $detail)     
-                                    <tr>
-                                        <td scope="row">{{ $index + 1 }}</td>
-                                        <td>{{ $detail->scheme_name }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="card">
+                            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0 text-white">Schemes List</h4>
+                                <a href="{{ route('schemes.index') }}" class="btn btn-primary btn-sm">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <table id="buttons-datatables-new" class="table table-bordered">
+                                    <thead style="background-color: mediumaquamarine;">
+                                        <tr>
+                                            <th>Sr.No</th>
+                                            <th>Scheme Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($schemeDetails as $index => $detail)     
+                                            <tr>
+                                                <td scope="row">{{ $index + 1 }}</td>
+                                                <td>{{ $detail->scheme_name }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-md-6 col-sm-12">
-                        <table id="buttons-datatables-new-2" class="table table-bordered">
-                            <thead style="background-color: burlywood;">
-                                <tr>
-                                    <th>Sr.No</th>
-                                    <th>Tenant Name</th>
-                                    <th>Scheme Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tenantsDetails as $index => $detail)     
-                                    <tr>
-                                        <td scope="row">{{ $index + 1 }}</td>
-                                        <td>{{ $detail->name_of_tenant }}</td>
-                                        <td>{{ $detail->scheme_name }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="card">
+                            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0 text-white">Tenants List</h4>
+                                <a href="{{ route('getTenantsList') }}" class="btn btn-primary btn-sm">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <table id="buttons-datatables-new-2" class="table table-bordered">
+                                    <thead style="background-color: burlywood;">
+                                        <tr>
+                                            <th>Sr.No</th>
+                                            <th>Tenant Name</th>
+                                            <th>Scheme Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($tenantsDetails as $index => $detail)     
+                                            <tr>
+                                                <td scope="row">{{ $index + 1 }}</td>
+                                                <td>{{ $detail->name_of_tenant }}</td>
+                                                <td>{{ $detail->scheme_name }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
                     </div>
 
                 </div>
@@ -353,8 +370,8 @@
     @endpush
 
 </x-admin.layout>
-<script>
+{{-- <script>
     $(document).ready( function () {
     $('#buttons-datatables-new,#buttons-datatables-new-2').DataTable();
 } );
-</script>
+</script> --}}
