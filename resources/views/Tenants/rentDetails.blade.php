@@ -50,13 +50,18 @@
                                                         @if ($list->finance_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Finance')
                                                             <button type="button" class="btn btn-success btn-sm approvedByFinance" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
                                                             <button type="button" class="btn btn-danger btn-sm rejectByFinance" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
-                                                        @endif
-                                                        @if ($list->finance_approval == "Approved" && $list->collector_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Collector')
-                                                            <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
-                                                            <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button>
+                                                        @elseif ($list->finance_approval == "Approved" && $list->collector_approval == "Pending")
+                                                            @if (auth()->user()->roles->pluck('name')[0] == 'Collector')
+                                                                <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
+                                                                <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button>
+                                                            @else
+                                                                Pending
+                                                            @endif
+                                                        @else
+                                                            {{ $list->overall_status }}
                                                         @endif
                                                     @else
-                                                        {{ $list->overall_status }}  
+                                                        {{ $list->overall_status }}
                                                     @endif
                                                 @else
                                                     {{ $list->overall_status }}
