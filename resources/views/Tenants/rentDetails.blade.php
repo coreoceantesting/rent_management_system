@@ -48,12 +48,12 @@
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Finance' || auth()->user()->roles->pluck('name')[0] == 'Collector')
                                                     @if ($list->overall_status == "Pending")
                                                         @if ($list->finance_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Finance')
-                                                            <button type="button" class="btn btn-success btn-sm" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
+                                                            <button type="button" class="btn btn-success btn-sm approvedByFinance" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
+                                                            <button type="button" class="btn btn-danger btn-sm rejectByFinance" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
                                                         @endif
                                                         @if ($list->finance_approval == "Approved" && $list->collector_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Collector')
-                                                            <button type="button" class="btn btn-success btn-sm" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button>
+                                                            <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
+                                                            <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button>
                                                         @endif
                                                     @else
                                                         {{ $list->overall_status }}  
@@ -90,7 +90,7 @@
 
 {{-- approved tenant rent detail by Finance --}}
 <script>
-    $("#approvedByFinance").on("click", function(e) {
+    $(".approvedByFinance").on("click", function(e) {
         e.preventDefault();
         swal({
             title: "Are you sure to approve this tenants rent?",
@@ -129,7 +129,7 @@
 
 {{-- approved tenant rent detail by Collector --}}
 <script>
-    $("#approvedByCollector").on("click", function(e) {
+    $(".approvedByCollector").on("click", function(e) {
         e.preventDefault();
         swal({
             title: "Are you sure to approve this tenants rent?",
@@ -168,7 +168,7 @@
 
 {{-- reject Tenants rent detail By Finance--}}
 <script>
-    $("#rejectByFinance").on("click", function(e) {
+    $(".rejectByFinance").on("click", function(e) {
         e.preventDefault();
         swal({
             title: "Are you sure to reject this tenants rent?",
@@ -207,7 +207,7 @@
 
 {{-- reject Tenants rent detail By Collector--}}
 <script>
-    $("#rejectByCollector").on("click", function(e) {
+    $(".rejectByCollector").on("click", function(e) {
         e.preventDefault();
         swal({
             title: "Are you sure to reject this tenants rent?",
