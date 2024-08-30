@@ -143,9 +143,11 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="password-input">Password (पासवर्ड)</label>
-                                    <div class="position-relative auth-pass-inputgroup mb-3">
-                                        <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password" name="password" >
-                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                    <div class="input-group mb-3">
+                                        <input type="password" class="form-control password-input" placeholder="Enter password" id="password" name="password">
+                                        <button class="btn btn-outline-secondary" type="button" id="password-addon">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
                                     </div>
                                     <span class="text-danger is-invalid password_err"></span>
                                 </div>
@@ -368,6 +370,24 @@
                     });
                 }
 
+            });
+        </script>
+
+        {{-- show password --}}
+        <script>
+            document.getElementById('password-addon').addEventListener('click', function () {
+                var passwordInput = document.getElementById('password');
+                var icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
             });
         </script>
     </body>
