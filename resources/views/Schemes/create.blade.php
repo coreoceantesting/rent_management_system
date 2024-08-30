@@ -59,8 +59,8 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="scheme_cst_number">Scheme Cst Number <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="scheme_cst_number" name="scheme_cst_number" type="text" placeholder="Enter Scheme Cst Number">
+                                    <label class="col-form-label" for="scheme_cst_number">Scheme Cts Number <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="scheme_cst_number" name="scheme_cst_number" type="text" placeholder="Enter Scheme Cts Number">
                                     <span class="text-danger is-invalid scheme_cst_number_err"></span>
                                 </div>
 

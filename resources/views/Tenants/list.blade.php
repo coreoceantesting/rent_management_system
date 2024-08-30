@@ -44,7 +44,9 @@
                                                     <a href="{{ route('tenants.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Tenants Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                                 @endcan
                                                 @can('TenantsDetails.edit')
-                                                    <a href="{{ route('tenants.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Tenants Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
+                                                    @if ($list->finance_approval == "Pending" && $list->collector_approval == "Pending")
+                                                        <a href="{{ route('tenants.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Tenants Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
+                                                    @endif
                                                 @endcan
                                                 @can('TenantsDetails.delete')
                                                     <a class="btn btn-sm text-danger rem-element px-2 py-1" title="Delete Tenants Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </a>     
