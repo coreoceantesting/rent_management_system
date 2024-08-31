@@ -22,7 +22,16 @@ class TenantsDetailsController extends Controller
      */
     public function index()
     {
-        $scheme_list = SchemeDetail::latest()->get([
+        $query = SchemeDetail::query();
+
+        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+            $query->where('created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('ward_name', $wards);
+        }
+
+        $scheme_list = $query->latest()->get([
             'id',
             'scheme_id',
             'scheme_name',
@@ -38,7 +47,15 @@ class TenantsDetailsController extends Controller
      */
     public function create()
     {
-        $scheme_list = SchemeDetail::latest()->get(['scheme_id', 'scheme_name']);
+        $query = SchemeDetail::query();
+        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+            $query->where('created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('ward_name', $wards);
+        }
+
+        $scheme_list = $query->latest()->get(['scheme_id', 'scheme_name']);
         return view('Tenants.create')->with(['scheme_list' => $scheme_list]);
     }
 
@@ -96,7 +113,15 @@ class TenantsDetailsController extends Controller
     public function edit(string $id)
     {
         $tenants_details = TenantsDetail::findorFail($id);
-        $scheme_list = SchemeDetail::latest()->get(['scheme_id', 'scheme_name']);
+        $query = SchemeDetail::query();
+        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+            $query->where('created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('ward_name', $wards);
+        }
+
+        $scheme_list = $query->latest()->get(['scheme_id', 'scheme_name']);
         return view('Tenants.edit')->with(['tenants_details' => $tenants_details, 'scheme_list' => $scheme_list]);
     }
 
@@ -179,10 +204,19 @@ class TenantsDetailsController extends Controller
 
     public function getTenantsList()
     {
-        $tenants_list = TenantsDetail::select('tenants_details.*', 'scheme_details.scheme_name as Scheme')
+        $query = TenantsDetail::select('tenants_details.*', 'scheme_details.scheme_name as Scheme', 'scheme_details.ward_name')
         ->leftJoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id')
-        ->orderBy('tenants_details.id', 'desc')
-        ->get();
+        ->orderBy('tenants_details.id', 'desc');
+
+        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+            $query->where('scheme_details.created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('scheme_details.ward_name', $wards);
+        }
+
+        $tenants_list = $query->get();
+
         return view('Tenants.list')->with(['tenants_list' => $tenants_list]);
     }
 

@@ -19,7 +19,17 @@ class SchemeDetailsController extends Controller
      */
     public function index()
     {
-        $scheme_list = SchemeDetail::latest()->get([
+
+        $query = SchemeDetail::query();
+
+        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+            $query->where('created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('ward_name', $wards);
+        }
+
+        $scheme_list = $query->latest()->get([
             'id',
             'scheme_name',
             'scheme_proposal_number',
