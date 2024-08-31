@@ -38,6 +38,12 @@
                             </div>
 
                             <div class="col-md-4 mt-3">
+                                <label class="col-form-label" for="designation">Designation <span class="text-danger">*</span></label>
+                                <input class="form-control" id="designation" name="designation" type="text" placeholder="Enter Designation">
+                                <span class="text-danger is-invalid designation_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3">
                                 <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
                                 {{-- <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward"> --}}
                                 <select class="js-example-basic-single col-sm-12" id="ward" name="ward[]" multiple>
@@ -129,6 +135,12 @@
                                 <input class="form-control" name="mobile" type="number" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
                                     placeholder="Enter User Mobile">
                                 <span class="text-danger is-invalid mobile_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3">
+                                <label class="col-form-label" for="designation">Designation <span class="text-danger">*</span></label>
+                                <input class="form-control" id="designation" name="designation" type="text" placeholder="Enter Designation">
+                                <span class="text-danger is-invalid designation_err"></span>
                             </div>
 
                             <div class="col-md-4 mt-3">
@@ -509,6 +521,7 @@
                     $("#editForm input[name='name']").val(data.user.name);
                     $("#editForm input[name='email']").val(data.user.email);
                     $("#editForm input[name='mobile']").val(data.user.mobile);
+                    $("#editForm input[name='designation']").val(data.user.designation);
                     $("#editForm select[name='ward_id']").html(data.wardHtml);
                 } else {
                     swal("Error!", data.error, "error");

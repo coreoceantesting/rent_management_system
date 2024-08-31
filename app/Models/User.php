@@ -24,6 +24,7 @@ class User extends Authenticatable
         'area',
         'ward',
         'mobile',
+        'designation',
         'password',
     ];
 
