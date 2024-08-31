@@ -43,10 +43,15 @@
                         </tr>
 
                         <tr>
-                            <th>Finance Department Approval</th>
-                            <td>{{ $tenant_details->finance_approval }}</td>
                             <th>DY Collector Approval</th>
                             <td>{{ $tenant_details->collector_approval }}</td>
+                            <th>Uploaded Annexure</th>
+                            <td><a href="{{ asset('storage/' . $tenant_details->upload_annexure) }}" target="_blank">View Document</a></td>
+                        </tr>
+
+                        <tr>
+                            <th>Uploaded Rent Agreement</th>
+                            <td><a href="{{ asset('storage/' . $tenant_details->upload_rent_agreement) }}" target="_blank">View Document</a></td>
                         </tr>
 
                     </thead>

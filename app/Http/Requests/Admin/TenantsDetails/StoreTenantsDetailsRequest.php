@@ -37,6 +37,8 @@ class StoreTenantsDetailsRequest extends FormRequest
             'bank_name' => 'required',
             'ifsc_code' => 'required',
             'branch_name' => 'required',
+            'upload_annexure' => 'required',
+            'upload_rent_agreement' => 'required',
         ];
     }
 }

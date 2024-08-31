@@ -23,6 +23,8 @@ class TenantsDetail extends Model
         'rent_to',
         'total_rent',
         'demolished_date',
+        'upload_annexure',
+        'upload_rent_agreement',
         'bank_account_no',
         'bank_name',
         'ifsc_code',

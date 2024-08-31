@@ -27,6 +27,13 @@
                             </div>
 
                             <div class="col-md-4">
+                                <label class="col-form-label" for="upload_annexure">Upload Annexure <span class="text-danger">*</span></label>
+                                <input class="form-control" id="upload_annexure" name="upload_annexure" type="file">
+                                <a href="{{ asset('storage/' . $tenants_details->upload_annexure) }}" target="_blank">View Document</a>
+                                <span class="text-danger is-invalid upload_annexure_err"></span>
+                            </div>
+
+                            <div class="col-md-4">
                                 <label class="col-form-label" for="scheme_name">Scheme Name <span class="text-danger">*</span></label>
                                 <select class="form-control" name="scheme_name" id="scheme_name">
                                     <option value="">Select Scheme Name</option>
@@ -53,6 +60,7 @@
                                     <option value="">Select Option</option>
                                     <option value="Residential" @if($tenants_details->residential_or_commercial == "Residential" ) selected @endif>Residential</option>
                                     <option value="Commercial" @if($tenants_details->residential_or_commercial == "Commercial" ) selected @endif>Commercial</option>
+                                    <option value="Residential/Commercial" @if($tenants_details->residential_or_commercial == "Residential/Commercial" ) selected @endif>Residential/Commercial</option>
                                 </select>
                                 <span class="text-danger is-invalid residential_or_commercial_err"></span>
                             </div>
@@ -61,6 +69,13 @@
                                 <label class="col-form-label" for="demolished_date">Structure Demolished Date<span class="text-danger">*</span></label>
                                 <input class="form-control" id="demolished_date" name="demolished_date" type="date" value="{{ $tenants_details->demolished_date }}">
                                 <span class="text-danger is-invalid demolished_date_err"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="col-form-label" for="upload_rent_agreement">Upload Rent Agreement <span class="text-danger">*</span></label>
+                                <input class="form-control" id="upload_rent_agreement" name="upload_rent_agreement" type="file">
+                                <a href="{{ asset('storage/' . $tenants_details->upload_rent_agreement) }}" target="_blank">View Document</a>
+                                <span class="text-danger is-invalid upload_rent_agreement_err"></span>
                             </div>
 
                             <div class="col-md-4">

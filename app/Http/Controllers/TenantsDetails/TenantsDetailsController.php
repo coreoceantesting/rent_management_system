@@ -51,6 +51,19 @@ class TenantsDetailsController extends Controller
         {
             DB::beginTransaction();
             $input = $request->validated();
+
+            if ($request->hasFile('upload_annexure')) {
+                $Doc = $request->file('upload_annexure');
+                $DocPath = $Doc->store('upload_annexure', 'public');
+                $input['upload_annexure'] = $DocPath;
+            } 
+
+            if ($request->hasFile('upload_rent_agreement')) {
+                $Doc_new = $request->file('upload_rent_agreement');
+                $DocPath_new = $Doc_new->store('upload_rent_agreement', 'public');
+                $input['upload_rent_agreement'] = $DocPath_new;
+            } 
+
             $tenant = TenantsDetail::create($input);
             DB::commit();
 
@@ -98,6 +111,29 @@ class TenantsDetailsController extends Controller
 
             $input = $request->validated();
             $tenantsDetail = TenantsDetail::findOrFail($id);
+
+            if ($request->hasFile('upload_annexure')) {
+
+                if (!empty($tenantsDetail->upload_annexure)) {
+                    Storage::disk('public')->delete($tenantsDetail->upload_annexure);
+                }
+
+                $Doc = $request->file('upload_annexure');
+                $DocPath = $Doc->store('upload_annexure', 'public');
+                $input['upload_annexure'] = $DocPath;
+            } 
+
+            if ($request->hasFile('upload_rent_agreement')) {
+
+                if (!empty($tenantsDetail->upload_rent_agreement)) {
+                    Storage::disk('public')->delete($tenantsDetail->upload_rent_agreement);
+                }
+
+                $Doc_new = $request->file('upload_rent_agreement');
+                $DocPath_new = $Doc_new->store('upload_rent_agreement', 'public');
+                $input['upload_rent_agreement'] = $DocPath_new;
+            }
+
             $tenantsDetail->update($input);
 
             DB::commit();

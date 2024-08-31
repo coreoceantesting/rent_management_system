@@ -37,6 +37,8 @@ class UpdateTenantsDetailsRequest extends FormRequest
             'bank_name' => 'required',
             'ifsc_code' => 'required',
             'branch_name' => 'required',
+            'upload_annexure' => 'nullable',
+            'upload_rent_agreement' => 'nullable',
         ];
     }
 }

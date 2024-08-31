@@ -28,6 +28,12 @@
                                 </div>
 
                                 <div class="col-md-4">
+                                    <label class="col-form-label" for="upload_annexure">Upload Annexure <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="upload_annexure" name="upload_annexure" type="file">
+                                    <span class="text-danger is-invalid upload_annexure_err"></span>
+                                </div>
+
+                                <div class="col-md-4">
                                     <label class="col-form-label" for="scheme_name">Scheme Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="scheme_name" id="scheme_name">
                                         <option value="">Select Scheme Name</option>
@@ -54,6 +60,7 @@
                                         <option value="">Select Option</option>
                                         <option value="Residential">Residential</option>
                                         <option value="Commercial">Commercial</option>
+                                        <option value="Residential/Commercial">Residential/Commercial</option>
                                     </select>
                                     <span class="text-danger is-invalid residential_or_commercial_err"></span>
                                 </div>
@@ -62,6 +69,12 @@
                                     <label class="col-form-label" for="demolished_date">Structure Demolished Date<span class="text-danger">*</span></label>
                                     <input class="form-control" id="demolished_date" name="demolished_date" type="date">
                                     <span class="text-danger is-invalid demolished_date_err"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="upload_rent_agreement">Upload Rent Agreement <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="upload_rent_agreement" name="upload_rent_agreement" type="file">
+                                    <span class="text-danger is-invalid upload_rent_agreement_err"></span>
                                 </div>
 
                                 <div class="col-md-4">
