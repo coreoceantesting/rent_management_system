@@ -39,13 +39,25 @@
 
                             <div class="col-md-4 mt-3">
                                 <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
-                                <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward">
+                                {{-- <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward"> --}}
+                                <select class="js-example-basic-single col-sm-12" id="ward" name="ward[]" multiple>
+                                    <option value="">--Select Ward--</option>
+                                    @foreach ($wards as $ward)
+                                        <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger is-invalid ward_err"></span>
                             </div>
 
                             <div class="col-md-4 mt-3">
                                 <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
-                                <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area">
+                                {{-- <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area"> --}}
+                                <select class="js-example-basic-single col-sm-12" id="area" name="area[]" multiple>
+                                    <option value="">--Select Area--</option>
+                                    @foreach ($areas as $area)
+                                        <option value="{{ $area->id }}">{{ $area->region_name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger is-invalid area_err"></span>
                             </div>
 
@@ -121,13 +133,25 @@
 
                             <div class="col-md-4 mt-3">
                                 <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
-                                <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward">
+                                {{-- <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward"> --}}
+                                <select class="js-example-basic-single col-sm-12" id="editward" name="ward[]" multiple>
+                                    <option value="">--Select Ward--</option>
+                                    @foreach ($wards as $ward)
+                                        <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger is-invalid ward_err"></span>
                             </div>
 
                             <div class="col-md-4 mt-3">
                                 <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
-                                <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area">
+                                {{-- <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area"> --}}
+                                <select class="js-example-basic-single col-sm-12" id="editarea" name="area[]" multiple>
+                                    <option value="">--Select Area--</option>
+                                    @foreach ($areas as $area)
+                                        <option value="{{ $area->id }}">{{ $area->region_name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger is-invalid area_err"></span>
                             </div>
 
@@ -471,8 +495,15 @@
                 if (!data.error) {
                     $("#editForm input[name='edit_model_id']").val(data.user.id);
                     $("#editForm input[name='dob']").val(data.user.dob);
-                    $("#editForm input[name='area']").val(data.user.area);
-                    $("#editForm input[name='ward']").val(data.user.ward);
+
+                    // Convert comma-separated values to an array
+                    var areas = data.user.area ? data.user.area.split(',') : [];
+                    var wards = data.user.ward ? data.user.ward.split(',') : [];
+
+                    // Set selected values for multi-select fields
+                    $("#editForm select[name='area[]']").val(areas).trigger('change');
+                    $("#editForm select[name='ward[]']").val(wards).trigger('change');
+
                     data.user.gender == 'm' ? $("#editForm input[name='gender'][value='m']").prop("checked", true) : $("#editForm input[name='gender'][value='f']").prop("checked", true);
                     $("#editForm select[name='role']").html(data.roleHtml);
                     $("#editForm input[name='name']").val(data.user.name);

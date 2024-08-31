@@ -16,8 +16,8 @@
                         <div class="card-body">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label for="rent_given_by_developer" class="form-label">Rent Given By Developer <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" name="rent_given_by_developer" id="rent_given_by_developer" placeholder="Enter Developer Name" required>
+                                    <label for="rent_given_by_developer" class="form-label">Rent Given By Developer Till Date<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="rent_given_by_developer" id="rent_given_by_developer" placeholder="Enter Rent Given By Developer Till Date" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="monthly_rent" class="form-label">Monthly Rent <span class="text-danger">*</span></label>

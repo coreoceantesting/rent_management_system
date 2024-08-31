@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Ward;
+use App\Models\Region;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,8 +32,10 @@ class UserController extends Controller
             $users = User::whereNot('id', Auth::user()->id)->latest()->get();
         }
         $roles = Role::orderBy('id', 'DESC')->whereNot('name', 'like', '%super%')->get();
+        $wards = Ward::latest()->get();
+        $areas = Region::latest()->get();
 
-        return view('admin.users')->with(['users'=> $users, 'roles'=> $roles]);
+        return view('admin.users')->with(['users'=> $users, 'roles'=> $roles, 'wards' => $wards, 'areas' => $areas]);
     }
 
     /**
@@ -53,6 +56,8 @@ class UserController extends Controller
             DB::beginTransaction();
             $input = $request->validated();
             $input['password'] = Hash::make($input['password']);
+            $input['ward'] = implode(',', $input['ward']);
+            $input['area'] = implode(',', $input['area']);
             $user = User::create( Arr::only( $input, Auth::user()->getFillable() ) );
             DB::table('model_has_roles')->insert(['role_id'=> $input['role'], 'model_type'=> 'App\Models\User', 'model_id'=> $user->id]);
             DB::commit();
@@ -114,6 +119,8 @@ class UserController extends Controller
         {
             DB::beginTransaction();
             $input = $request->validated();
+            $input['ward'] = implode(',', $input['ward']);
+            $input['area'] = implode(',', $input['area']);
             $user->update( Arr::only( $input, Auth::user()->getFillable() ) );
             $user->roles()->detach();
             DB::table('model_has_roles')->insert(['role_id'=> $input['role'], 'model_type'=> 'App\Models\User', 'model_id'=> $user->id]);

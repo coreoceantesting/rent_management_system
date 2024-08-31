@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Models\User;
+use App\Models\Ward;
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +24,10 @@ class AuthController extends Controller
             array_push($quotes, Inspiring::quote());
         }
 
-        return view('admin.auth.login')->with(['quotes' => $quotes]);
+        $wards = Ward::latest()->get();
+        $areas = Region::latest()->get();
+
+        return view('admin.auth.login')->with(['quotes' => $quotes, 'wards' => $wards, 'areas' => $areas]);
     }
 
     public function login(Request $request)
@@ -137,8 +142,8 @@ class AuthController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users,email|email',
                 'mobile' => 'required|unique:users,mobile|digits:10',
-                'area' => 'required',
-                'ward' => 'required',
+                'area' => 'nullable',
+                'ward' => 'nullable',
                 'password' => 'required|min:8',
                 'confirm_password' => 'required|same:password',
             ]);

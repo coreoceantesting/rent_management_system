@@ -165,7 +165,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="signupModalLabel">Signup For Contractor</h4>
+                                    <h4 class="modal-title" id="signupModalLabel">Signup For Developer</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -175,7 +175,7 @@
                                         <div class="mb-1 row">
 
                                             <div class="col-md-6 mt-2">
-                                                <label class="col-form-label" for="name">Contractor Name <span class="text-danger">*</span></label>
+                                                <label class="col-form-label" for="name">Developer Name <span class="text-danger">*</span></label>
                                                 <input class="form-control" id="name" name="name" type="text" placeholder="Enter User Name">
                                                 <span class="text-danger is-invalid name_err"></span>
                                             </div>
@@ -194,14 +194,26 @@
                                             </div>
                 
                                             <div class="col-md-6 mt-2">
-                                                <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
-                                                <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward">
+                                                <label class="col-form-label" for="ward">Ward</label>
+                                                {{-- <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward"> --}}
+                                                <select class="form-control col-sm-12" id="ward" name="ward">
+                                                    <option value="">--Select Ward--</option>
+                                                    @foreach ($wards as $ward)
+                                                        <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                                    @endforeach
+                                                </select>
                                                 <span class="text-danger is-invalid ward_err"></span>
                                             </div>
                 
                                             <div class="col-md-6 mt-2">
-                                                <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
-                                                <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area">
+                                                <label class="col-form-label" for="area">Area</label>
+                                                {{-- <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area"> --}}
+                                                <select class="form-control col-sm-12" id="area" name="area">
+                                                    <option value="">--Select Area--</option>
+                                                    @foreach ($areas as $area)
+                                                        <option value="{{ $area->id }}">{{ $area->region_name }}</option>
+                                                    @endforeach
+                                                </select>
                                                 <span class="text-danger is-invalid area_err"></span>
                                             </div>
                 
