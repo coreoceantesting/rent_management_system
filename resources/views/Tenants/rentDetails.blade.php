@@ -19,7 +19,7 @@
                                         <th>Rent Paid</th>
                                         <th>Months</th>
                                         <th>Percentage</th>
-                                        <th>Final Amount</th>
+                                        <th>Monthly Final Amount</th>
                                         <th>Document</th>
                                         <th>Status</th>
                                     </tr>

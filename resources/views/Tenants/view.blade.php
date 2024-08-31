@@ -54,11 +54,11 @@
             </div>
         </div>
         <div class="card-footer text-center">
-            @if ($tenant_details->finance_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Finance')
+            {{-- @if ($tenant_details->finance_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Finance')
                 <button type="button" class="btn btn-success" id="approvedByFinance" data-id="{{ $tenant_details->id }}">Approve</button>
                 <button type="button" class="btn btn-danger" id="rejectByFinance" data-id="{{ $tenant_details->id }}">Reject</button>
-            @endif
-            @if ($tenant_details->finance_approval == "Approved" && $tenant_details->collector_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Collector')
+            @endif --}}
+            @if ($tenant_details->collector_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Collector')
                 <button type="button" class="btn btn-success" id="approvedByCollector" data-id="{{ $tenant_details->id }}">Approve</button>
                 <button type="button" class="btn btn-danger" id="rejectByCollector" data-id="{{ $tenant_details->id }}">Reject</button>
             @endif

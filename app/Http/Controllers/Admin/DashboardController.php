@@ -14,7 +14,8 @@ class DashboardController extends Controller
     {
         $schemeDetails = SchemeDetail::latest()->take(5)->get(['scheme_name']);
         $tenantsDetails = TenantsDetail::leftjoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id')
-        ->select('tenants_details.name_of_tenant', 'scheme_details.scheme_name')
+        ->select('tenants_details.name_of_tenant', 'scheme_details.scheme_name','tenants_details.overall_status')
+        ->where('tenants_details.overall_status', '=', 'Pending')
         ->orderBy('tenants_details.id', 'desc')
         ->take(5)
         ->get();

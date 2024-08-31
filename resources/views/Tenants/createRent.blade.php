@@ -52,7 +52,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="upload_doc" class="form-label">Upload Document</label>
+                                    <label for="upload_doc" class="form-label">Upload Payment Proof</label>
                                     <input class="form-control" type="file" name="upload_doc" id="upload_doc">
                                 </div>
 

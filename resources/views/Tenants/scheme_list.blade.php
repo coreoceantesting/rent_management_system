@@ -23,10 +23,11 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $list->scheme_name }}</td>
-                                            <td><a href="{{ route('getTenants', $list->scheme_id) }}">{{ $list->scheme_proposal_number }}</a></td>
+                                            <td>{{ $list->scheme_proposal_number }}</td>
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
                                             <td>
+                                                <a href="{{ route('getTenants', $list->scheme_id) }}" class="view-details btn btn-sm btn-primary">View Tenants Details</a>
                                                 <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                             </td>
                                         </tr>

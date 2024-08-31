@@ -212,14 +212,22 @@
                                             <th>Scheme Name</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($schemeDetails as $index => $detail)     
-                                            <tr>
-                                                <td scope="row">{{ $index + 1 }}</td>
-                                                <td>{{ $detail->scheme_name }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
+                                    @if (!empty($schemeDetails) && $schemeDetails->count() > 0)
+                                        <tbody>
+                                            @foreach ($schemeDetails as $index => $detail)     
+                                                <tr>
+                                                    <td scope="row">{{ $index + 1 }}</td>
+                                                    <td>{{ $detail->scheme_name }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    @else
+                                        <tr>
+                                            <td colspan="4">
+                                                <h4 class="text-center">No Data Found</h4>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </table>
                             </div>
                         </div>
@@ -232,23 +240,33 @@
                                 <a href="{{ route('getTenantsList') }}" class="btn btn-primary btn-sm">View All</a>
                             </div>
                             <div class="card-body">
-                                <table id="buttons-datatables-new-2" class="table table-bordered">
+                                <table id="buttons-datatables-new-2" class="table table-bordered table-responsive">
                                     <thead style="background-color: #e9f0ee;">
                                         <tr>
                                             <th>Sr.No</th>
                                             <th>Tenant Name</th>
                                             <th>Scheme Name</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($tenantsDetails as $index => $detail)     
-                                            <tr>
-                                                <td scope="row">{{ $index + 1 }}</td>
-                                                <td>{{ $detail->name_of_tenant }}</td>
-                                                <td>{{ $detail->scheme_name }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
+                                    @if (!empty($tenantsDetails) && $tenantsDetails->count() > 0)
+                                        <tbody>
+                                            @foreach ($tenantsDetails as $index => $detail)
+                                                <tr>
+                                                    <td scope="row">{{ $index + 1 }}</td>
+                                                    <td>{{ $detail->name_of_tenant }}</td>
+                                                    <td>{{ $detail->scheme_name }}</td>
+                                                    <td>{{ $detail->overall_status }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    @else
+                                        <tr>
+                                            <td colspan="4">
+                                                <h4 class="text-center">No Data Found</h4>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </table>
                             </div>
                         </div>
