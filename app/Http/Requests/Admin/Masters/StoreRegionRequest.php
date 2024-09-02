@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Masters;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRegionRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class StoreRegionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'region_name' => 'required|unique:regions',
+            'region_name' => [
+            'required',
+                Rule::unique('regions')->where(function ($query) {
+                    return $query->whereNull('deleted_at');
+                }),
+            ],
             'initial' => 'required',
         ];
     }

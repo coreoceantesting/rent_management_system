@@ -36,7 +36,7 @@
                                 <select class="form-control" name="ward_name" id="ward_name">
                                     <option value="">Select Ward Name</option>
                                     @foreach ($wards as $ward)
-                                        <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                        <option value="{{ $ward->id }}" @if($scheme_details->ward_name == $ward->id) selected @endif>{{ $ward->name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger is-invalid ward_name_err"></span>
