@@ -24,7 +24,7 @@ class StoreWardRequest extends FormRequest
         return [
             'name' => 'required',
             'initial' => 'required',
-            'region' => 'required',
+            'region' => 'nullable',
         ];
     }
 }

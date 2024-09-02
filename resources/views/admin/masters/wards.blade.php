@@ -21,7 +21,7 @@
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Enter Ward Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <label class="col-form-label" for="region">region <span class="text-danger">*</span></label>
                                     <select class="form-control" name="region" id="region">
                                         <option value="">Select Region</option>
@@ -30,7 +30,7 @@
                                         @endforeach
                                     </select>
                                     <span class="text-danger is-invalid region_err"></span>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
                                     <input class="form-control" id="initial" name="initial" type="text" placeholder="Enter Ward Initial">
@@ -67,7 +67,7 @@
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Ward Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <label class="col-form-label" for="region">region <span class="text-danger">*</span></label>
                                     <select class="form-control" name="region" id="region">
                                         <option value="">Select Region</option>
@@ -76,7 +76,7 @@
                                         @endforeach
                                     </select>
                                     <span class="text-danger is-invalid region_err"></span>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
                                     <input class="form-control" id="initial" name="initial" type="text" placeholder="Enter Ward Initial">
@@ -115,7 +115,7 @@
                                     <tr>
                                         <th>Sr.No</th>
                                         <th>Ward Name</th>
-                                        <th>Region Name</th>
+                                        {{-- <th>Region Name</th> --}}
                                         <th>Initial</th>
                                         <th>Action</th>
                                     </tr>
@@ -125,7 +125,7 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $ward->name }}</td>
-                                            <td>{{ $ward->region_name }}</td>
+                                            {{-- <td>{{ $ward->region_name }}</td> --}}
                                             <td>{{ $ward->initial }}</td>
                                             <td>
                                                 <button class="edit-element btn text-secondary px-2 py-1" title="Edit ward" data-id="{{ $ward->id }}"><i data-feather="edit"></i></button>
@@ -208,7 +208,7 @@
                     $("#editForm input[name='edit_model_id']").val(data.ward.id);
                     $("#editForm input[name='name']").val(data.ward.name);
                     $("#editForm input[name='initial']").val(data.ward.initial);
-                    $("#editForm select[name='region']").val(data.ward.region);
+                    // $("#editForm select[name='region']").val(data.ward.region);
                     
                 }
                 else

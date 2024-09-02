@@ -36,6 +36,9 @@
                                     <label class="col-form-label" for="ward_name">Ward Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="ward_name" id="ward_name">
                                         <option value="">Select Ward Name</option>
+                                        @foreach ($wards as $ward)
+                                            <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                        @endforeach
                                     </select>
                                     <span class="text-danger is-invalid ward_name_err"></span>
                                 </div>
@@ -162,7 +165,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function () {
         $('#region_name').on('change', function () {
             var region_id = $(this).val();
@@ -185,6 +188,6 @@
             }
         });
     });
-</script>
+</script> --}}
 
 

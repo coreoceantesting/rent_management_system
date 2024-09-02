@@ -45,7 +45,8 @@ class SchemeDetailsController extends Controller
     public function create()
     {
         $region_list = Region::latest()->get();
-        return view('Schemes.create')->with(['region_list' => $region_list]);
+        $wards = Ward::latest()->get();
+        return view('Schemes.create')->with(['region_list' => $region_list, 'wards' => $wards]);
     }
 
     /**
@@ -89,7 +90,8 @@ class SchemeDetailsController extends Controller
     {
         $scheme_details = SchemeDetail::findorFail($id);
         $region_list = Region::latest()->get();
-        return view('Schemes.edit')->with(['scheme_details' => $scheme_details, 'region_list' => $region_list]);
+        $wards = Ward::latest()->get();
+        return view('Schemes.edit')->with(['scheme_details' => $scheme_details, 'region_list' => $region_list, 'wards' => $wards]);
     }
 
     /**

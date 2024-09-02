@@ -19,10 +19,12 @@ class WardController extends Controller
      */
     public function index()
     {
-        $wards = Ward::select('wards.*', 'regions.region_name')
-        ->join('regions', 'wards.region', '=', 'regions.id')
-        ->latest('wards.created_at')
-        ->get();
+        // $wards = Ward::select('wards.*', 'regions.region_name')
+        // ->join('regions', 'wards.region', '=', 'regions.id')
+        // ->latest('wards.created_at')
+        // ->get();
+
+        $wards = Ward::latest()->get();
         $regions = Region::latest()->get();
 
         return view('admin.masters.wards')->with(['wards'=> $wards, 'regions' => $regions]);
