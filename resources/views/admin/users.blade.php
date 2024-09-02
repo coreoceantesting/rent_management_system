@@ -47,7 +47,7 @@
                                 <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
                                 {{-- <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward"> --}}
                                 <select class="js-example-basic-single col-sm-12" id="ward" name="ward[]" multiple>
-                                    <option value="">--Select Ward--</option>
+                                    <option value="" disabled>--Select Ward--</option>
                                     @foreach ($wards as $ward)
                                         <option value="{{ $ward->id }}">{{ $ward->name }}</option>
                                     @endforeach
@@ -59,7 +59,7 @@
                                 <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
                                 {{-- <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area"> --}}
                                 <select class="js-example-basic-single col-sm-12" id="area" name="area[]" multiple>
-                                    <option value="">--Select Area--</option>
+                                    <option value="" disabled>--Select Area--</option>
                                     @foreach ($areas as $area)
                                         <option value="{{ $area->id }}">{{ $area->region_name }}</option>
                                     @endforeach
@@ -147,7 +147,7 @@
                                 <label class="col-form-label" for="ward">Ward <span class="text-danger">*</span></label>
                                 {{-- <input class="form-control" id="ward" name="ward" type="text" placeholder="Enter Ward"> --}}
                                 <select class="js-example-basic-single col-sm-12" id="editward" name="ward[]" multiple>
-                                    <option value="">--Select Ward--</option>
+                                    <option value="" disabled>--Select Ward--</option>
                                     @foreach ($wards as $ward)
                                         <option value="{{ $ward->id }}">{{ $ward->name }}</option>
                                     @endforeach
@@ -159,7 +159,7 @@
                                 <label class="col-form-label" for="area">Area<span class="text-danger">*</span></label>
                                 {{-- <input class="form-control" id="area" name="area" type="text" placeholder="Enter Area"> --}}
                                 <select class="js-example-basic-single col-sm-12" id="editarea" name="area[]" multiple>
-                                    <option value="">--Select Area--</option>
+                                    <option value="" disabled>--Select Area--</option>
                                     @foreach ($areas as $area)
                                         <option value="{{ $area->id }}">{{ $area->region_name }}</option>
                                     @endforeach
