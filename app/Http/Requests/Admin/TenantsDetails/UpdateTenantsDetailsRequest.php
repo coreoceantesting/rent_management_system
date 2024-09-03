@@ -36,7 +36,7 @@ class UpdateTenantsDetailsRequest extends FormRequest
             'bank_account_no' => 'required',
             'bank_name' => 'required',
             'ifsc_code' => 'required',
-            'branch_name' => 'required',
+            'branch_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'upload_annexure' => 'nullable',
             'upload_rent_agreement' => 'nullable',
         ];
