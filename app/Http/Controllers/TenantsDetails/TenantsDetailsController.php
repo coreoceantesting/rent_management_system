@@ -197,6 +197,7 @@ class TenantsDetailsController extends Controller
         $tenants_list = TenantsDetail::select('tenants_details.*', 'scheme_details.scheme_name as Scheme')
         ->leftJoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id')
         ->where('tenants_details.scheme_name', $scheme_id)
+        ->where('tenants_details.overall_status', 'Approved')
         ->orderBy('tenants_details.id', 'desc')
         ->get();
         return view('Tenants.tenant_list')->with(['tenants_list' => $tenants_list]);
@@ -212,7 +213,7 @@ class TenantsDetailsController extends Controller
             $query->where('scheme_details.created_by', auth()->user()->id);
         } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
             $wards = explode(',', auth()->user()->ward);
-            $query->whereIn('scheme_details.ward_name', $wards);
+            $query->whereIn('scheme_details.ward_name', $wards)->where('tenants_details.overall_status', '=', 'Approved');
         }
 
         $tenants_list = $query->get();
@@ -374,12 +375,31 @@ class TenantsDetailsController extends Controller
     }
 
     //Rent approval functions
+
+    public function approvedRentByAr($id)
+    {
+        try {
+
+            // Update the status
+            DB::table('rent_details')->where('id', $id)->update([
+                'ar_approval' => 'Approved',
+                'ar_approval_by' => auth()->user()->id,
+                'ar_approval_at' => now()
+            ]);
+
+            return response()->json(['success' => 'Tenant rent approved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error approving tenant.'], 500);
+        }
+    }
+
     public function approvedRentByFinance($id)
     {
         try {
 
             // Update the status
             DB::table('rent_details')->where('id', $id)->update([
+                'overall_status' => 'Approved',
                 'finance_approval' => 'Approved',
                 'finance_approval_by' => auth()->user()->id,
                 'finance_approval_at' => now()
@@ -421,6 +441,27 @@ class TenantsDetailsController extends Controller
                 // 'finance_approval_remark' => $remark,
                 'finance_approval_by' => auth()->user()->id,
                 'finance_approval_at' => now()
+            ]);
+
+
+            return response()->json(['success' => 'Tenants rent rejected successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
+
+    public function rejectedRentByAr(Request $request, $id)
+    {
+        try {
+            // $tenantId = $request->remarkByFinanceId;
+            // $remark = $request->remarkByFinance; 
+
+            DB::table('rent_details')->where('id', $id)->update([
+                'overall_status' => 'Rejected',
+                'ar_approval' => 'Rejected',
+                // 'ar_approval_remark' => $remark,
+                'ar_approval_by' => auth()->user()->id,
+                'ar_approval_at' => now()
             ]);
 
 

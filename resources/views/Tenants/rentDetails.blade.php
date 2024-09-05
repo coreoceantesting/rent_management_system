@@ -44,29 +44,49 @@
                                                     NA
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if (auth()->user()->roles->pluck('name')[0] == 'Finance' || auth()->user()->roles->pluck('name')[0] == 'Collector')
-                                                    @if ($list->overall_status == "Pending")
-                                                        @if ($list->finance_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'Finance')
-                                                            <button type="button" class="btn btn-success btn-sm approvedByFinance" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
-                                                            <button type="button" class="btn btn-danger btn-sm rejectByFinance" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
-                                                        @elseif ($list->finance_approval == "Approved" && $list->collector_approval == "Pending")
-                                                            @if (auth()->user()->roles->pluck('name')[0] == 'Collector')
-                                                                <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
-                                                                <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button>
+                                                <td>
+                                                    @if (auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Finance')
+                                                        @if ($list->overall_status == "Pending")
+                                                            @if ($list->ar_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'AR')
+                                                                <button type="button" class="btn btn-success btn-sm approvedByAr" id="approvedByAr" data-id="{{ $list->id }}">Approve</button>
+                                                                <button type="button" class="btn btn-danger btn-sm rejectByAr" id="rejectByAr" data-id="{{ $list->id }}">Reject</button>
+                                                            @elseif ($list->ar_approval == "Approved" && $list->finance_approval == "Pending")
+                                                                @if (auth()->user()->roles->pluck('name')[0] == 'Finance')
+                                                                    {{-- <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button> --}}
+                                                                    <button type="button" class="btn btn-success btn-sm approvedByFinance" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm rejectByFinance" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
+                                                                @else
+                                                                    <span class="badge" style="background-color: gray">Pending</span>
+                                                                @endif
                                                             @else
-                                                                Pending
+                                                                @if ( $list->overall_status == "Pending" )
+                                                                    <span class="badge" style="background-color: gray">{{ $list->overall_status }}</span>   
+                                                                @elseif ( $list->overall_status == "Approved" )
+                                                                    <span class="badge" style="background-color: #40bb82">{{ $list->overall_status }}</span>
+                                                                @else
+                                                                    <span class="badge" style="background-color: #f26b6d">{{ $list->overall_status }}</span>
+                                                                @endif
                                                             @endif
                                                         @else
-                                                            {{ $list->overall_status }}
+                                                            @if ( $list->overall_status == "Pending" )
+                                                                <span class="badge" style="background-color: gray">{{ $list->overall_status }}</span>   
+                                                            @elseif ( $list->overall_status == "Approved" )
+                                                                <span class="badge" style="background-color: #40bb82">{{ $list->overall_status }}</span>
+                                                            @else
+                                                                <span class="badge" style="background-color: #f26b6d">{{ $list->overall_status }}</span>
+                                                            @endif
                                                         @endif
                                                     @else
-                                                        {{ $list->overall_status }}
+                                                        @if ( $list->overall_status == "Pending" )
+                                                            <span class="badge" style="background-color: grey">{{ $list->overall_status }}</span>   
+                                                        @elseif ( $list->overall_status == "Approved" )
+                                                            <span class="badge" style="background-color: #40bb82">{{ $list->overall_status }}</span>
+                                                        @else
+                                                            <span class="badge" style="background-color: #f26b6d">{{ $list->overall_status }}</span>
+                                                        @endif
                                                     @endif
-                                                @else
-                                                    {{ $list->overall_status }}
-                                                @endif
-                                            </td>
+                                                </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -92,6 +112,45 @@
         </div>
 
 </x-admin.layout>
+
+{{-- approved tenant rent detail by AR --}}
+<script>
+    $(".approvedByAr").on("click", function(e) {
+        e.preventDefault();
+        swal({
+            title: "Are you sure to approve this tenants rent?",
+            icon: "info",
+            buttons: ["Cancel", "Confirm"]
+        })
+        .then((willApprove) => {
+            if (willApprove) {
+                var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
+                var url = "{{ route('approvedRentByAr', ":model_id") }}";
+
+                $.ajax({
+                    url: url.replace(':model_id', model_id),
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swal("Success!", data.success, "success")
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                        } else {
+                            swal("Error!", data.error, "error");
+                        }
+                    },
+                    error: function(error) {
+                        swal("Error!", "Something went wrong", "error");
+                    },
+                });
+            }
+        });
+    });
+</script>
 
 {{-- approved tenant rent detail by Finance --}}
 <script>
@@ -145,6 +204,45 @@
             if (willApprove) {
                 var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
                 var url = "{{ route('approvedRentByCollector', ":model_id") }}";
+
+                $.ajax({
+                    url: url.replace(':model_id', model_id),
+                    type: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swal("Success!", data.success, "success")
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                        } else {
+                            swal("Error!", data.error, "error");
+                        }
+                    },
+                    error: function(error) {
+                        swal("Error!", "Something went wrong", "error");
+                    },
+                });
+            }
+        });
+    });
+</script>
+
+{{-- reject Tenants rent detail By AR--}}
+<script>
+    $(".rejectByAr").on("click", function(e) {
+        e.preventDefault();
+        swal({
+            title: "Are you sure to reject this tenants rent?",
+            icon: "info",
+            buttons: ["Cancel", "Confirm"]
+        })
+        .then((willApprove) => {
+            if (willApprove) {
+                var model_id = $(this).data("id"); // Assuming you have data-id attribute on the button
+                var url = "{{ route('rejectedRentByAr', ":model_id") }}";
 
                 $.ajax({
                     url: url.replace(':model_id', model_id),

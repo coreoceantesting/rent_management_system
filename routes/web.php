@@ -66,8 +66,10 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::post('/finance-reject-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedByFinance'])->name('rejectedByFinance');
     Route::post('/collector-reject-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedByCollector'])->name('rejectedByCollector');
     // tenant rent approval
+    Route::post('/ar-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByAr'])->name('approvedRentByAr');
     Route::post('/finance-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByFinance'])->name('approvedRentByFinance');
     Route::post('/collector-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByCollector'])->name('approvedRentByCollector');
+    Route::post('/ar-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByAr'])->name('rejectedRentByAr');
     Route::post('/finance-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByFinance'])->name('rejectedRentByFinance');
     Route::post('/collector-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByCollector'])->name('rejectedRentByCollector');
     

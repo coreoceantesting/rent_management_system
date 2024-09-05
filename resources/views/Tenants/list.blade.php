@@ -26,7 +26,8 @@
                                         <th>Scheme Name</th>
                                         <th>Eligible / Not Eligible</th>
                                         <th>Residential / Commercial</th>
-                                        <th>Status</th>
+                                        <th>Collector Approval</th>
+                                        <th>Overall Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -38,7 +39,24 @@
                                             <td>{{ $list->Scheme }}</td>
                                             <td>{{ $list->eligible_or_not }}</td>
                                             <td>{{ $list->residential_or_commercial }}</td>
-                                            <td>{{ $list->overall_status }}</td>
+                                            <td>
+                                                @if ( $list->collector_approval == "Pending" )
+                                                    <span class="badge" style="background-color: gray">{{ $list->collector_approval }}</span>   
+                                                @elseif ( $list->collector_approval == "Approved" )
+                                                    <span class="badge" style="background-color: #40bb82">{{ $list->collector_approval }}</span>
+                                                @else
+                                                    <span class="badge" style="background-color: #f26b6d">{{ $list->collector_approval }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ( $list->overall_status == "Pending" )
+                                                    <span class="badge" style="background-color: gray">{{ $list->overall_status }}</span>   
+                                                @elseif ( $list->overall_status == "Approved" )
+                                                    <span class="badge" style="background-color: #40bb82">{{ $list->overall_status }}</span>
+                                                @else
+                                                    <span class="badge" style="background-color: #f26b6d">{{ $list->overall_status }}</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @can('TenantsDetails.view')
                                                     <a href="{{ route('tenants.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Tenants Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>

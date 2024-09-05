@@ -15,6 +15,7 @@
                                         <th>Scheme Name</th>
                                         <th>Eligible / Not Eligible</th>
                                         <th>Residential / Commercial</th>
+                                        <th>Collector Approval</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -26,6 +27,15 @@
                                             <td>{{ $list->Scheme }}</td>
                                             <td>{{ $list->eligible_or_not }}</td>
                                             <td>{{ $list->residential_or_commercial }}</td>
+                                            <td>
+                                                @if ( $list->collector_approval == "Pending" )
+                                                    <span class="badge" style="background-color: gray">{{ $list->collector_approval }}</span>   
+                                                @elseif ( $list->collector_approval == "Approved" )
+                                                    <span class="badge" style="background-color: #40bb82">{{ $list->collector_approval }}</span>
+                                                @else
+                                                    <span class="badge" style="background-color: #f26b6d">{{ $list->collector_approval }}</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @can('RentDetails.add')
                                                     <a href="{{ route('createRentHistory', $list->id) }}" class="btn btn-sm btn-warning"  data-id="{{ $list->id }}">Add Rent Details</a>
