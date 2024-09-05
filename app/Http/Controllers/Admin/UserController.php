@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->roles->pluck('name')[0] == 'Contractor' )
+        if(auth()->user()->roles->pluck('name')[0] == 'Developer' )
         {
             $users = User::where('id', Auth::user()->id)->latest()->get();
         }else{

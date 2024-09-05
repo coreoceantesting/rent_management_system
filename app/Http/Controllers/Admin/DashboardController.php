@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
         // Base query for scheme details
         $schemeQuery = SchemeDetail::query()->latest();
-        if ($role == 'Contractor') {
+        if ($role == 'Developer') {
             $schemeQuery->where('created_by', $user->id);
         } elseif ($role == 'AR') {
             $wards = explode(',', $user->ward);
@@ -30,7 +30,7 @@ class DashboardController extends Controller
             ->select('tenants_details.name_of_tenant', 'scheme_details.scheme_name', 'tenants_details.overall_status')
             ->where('tenants_details.overall_status', 'Pending')
             ->orderBy('tenants_details.id', 'desc');
-        if ($role == 'Contractor') {
+        if ($role == 'Developer') {
             $tenantQuery->where('tenants_details.created_by', $user->id);
         } elseif ($role == 'AR') {
             $wards = explode(',', $user->ward);
@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
         // Count for schemes with role-based filtering
         $schemeCountQuery = SchemeDetail::query();
-        if ($role == 'Contractor') {
+        if ($role == 'Developer') {
             $schemeCountQuery->where('created_by', $user->id);
         } elseif ($role == 'AR') {
             $wards = explode(',', $user->ward);
@@ -50,7 +50,7 @@ class DashboardController extends Controller
 
         // Count for tenants with role-based filtering
         $tenantCountQuery = TenantsDetail::leftJoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id');
-        if ($role == 'Contractor') {
+        if ($role == 'Developer') {
             $tenantCountQuery->where('tenants_details.created_by', $user->id);
         } elseif ($role == 'AR') {
             $wards = explode(',', $user->ward);

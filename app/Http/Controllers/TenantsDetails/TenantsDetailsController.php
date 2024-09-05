@@ -24,7 +24,7 @@ class TenantsDetailsController extends Controller
     {
         $query = SchemeDetail::query();
 
-        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
             $query->where('created_by', auth()->user()->id);
         } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
             $wards = explode(',', auth()->user()->ward);
@@ -48,7 +48,7 @@ class TenantsDetailsController extends Controller
     public function create()
     {
         $query = SchemeDetail::query();
-        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
             $query->where('created_by', auth()->user()->id);
         } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
             $wards = explode(',', auth()->user()->ward);
@@ -114,7 +114,7 @@ class TenantsDetailsController extends Controller
     {
         $tenants_details = TenantsDetail::findorFail($id);
         $query = SchemeDetail::query();
-        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
             $query->where('created_by', auth()->user()->id);
         } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
             $wards = explode(',', auth()->user()->ward);
@@ -208,7 +208,7 @@ class TenantsDetailsController extends Controller
         ->leftJoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id')
         ->orderBy('tenants_details.id', 'desc');
 
-        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
             $query->where('scheme_details.created_by', auth()->user()->id);
         } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
             $wards = explode(',', auth()->user()->ward);

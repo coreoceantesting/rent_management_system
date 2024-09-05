@@ -22,7 +22,7 @@ class SchemeDetailsController extends Controller
 
         $query = SchemeDetail::query();
 
-        if (auth()->user()->roles->pluck('name')[0] == 'Contractor') {
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
             $query->where('created_by', auth()->user()->id);
         } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
             $wards = explode(',', auth()->user()->ward);
