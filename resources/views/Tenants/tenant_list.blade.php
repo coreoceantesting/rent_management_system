@@ -15,7 +15,7 @@
                                         <th>Scheme Name</th>
                                         <th>Eligible / Not Eligible</th>
                                         <th>Residential / Commercial</th>
-                                        <th>Collector Approval</th>
+                                        <th>Dy.Collector Approval</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
