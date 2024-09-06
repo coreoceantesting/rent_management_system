@@ -90,20 +90,6 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                {{-- <tfoot>
-                                    <tr>
-                                        <th colspan="3">Total Amount To Pay:</th>
-                                        <th>{{ $totalRent }}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Total Paid Amount:</th>
-                                        <th>{{ $totalPaidAmount }}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Balanced Amount:</th>
-                                        <th>{{ $remainingAmount }}</th>
-                                    </tr>
-                                </tfoot> --}}
                             </table>
                         </div>
                     </div>
