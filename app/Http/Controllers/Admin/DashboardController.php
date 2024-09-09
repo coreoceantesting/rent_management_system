@@ -28,7 +28,17 @@ class DashboardController extends Controller
         // Base query for tenants details
         $tenantQuery = TenantsDetail::leftJoin('scheme_details', 'tenants_details.scheme_name', '=', 'scheme_details.scheme_id')
             ->select('tenants_details.name_of_tenant', 'scheme_details.scheme_name', 'tenants_details.overall_status')
-            ->where('tenants_details.overall_status', 'Pending')
+            ->where(function($query) {
+                $query->where('tenants_details.overall_status', 'Pending')
+                      ->orWhere('tenants_details.overall_status', 'Approved');
+            })
+            ->orderByRaw("
+                CASE 
+                    WHEN tenants_details.overall_status = 'Pending' THEN 1 
+                    WHEN tenants_details.overall_status = 'Approved' THEN 2 
+                    ELSE 3 
+                END
+            ")
             ->orderBy('tenants_details.id', 'desc');
         if ($role == 'Developer') {
             $tenantQuery->where('tenants_details.created_by', $user->id);
