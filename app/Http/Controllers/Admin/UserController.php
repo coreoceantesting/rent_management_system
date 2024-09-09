@@ -27,9 +27,21 @@ class UserController extends Controller
     {
         if(auth()->user()->roles->pluck('name')[0] == 'Developer' )
         {
-            $users = User::where('id', Auth::user()->id)->latest()->get();
+            // $users = User::where('id', Auth::user()->id)->latest()->get();
+            $users = User::where('users.id', Auth::user()->id)
+                            ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                            ->select('users.*', 'roles.name as role_name')
+                            ->latest()
+                            ->get();
         }else{
-            $users = User::whereNot('id', Auth::user()->id)->latest()->get();
+            // $users = User::whereNot('id', Auth::user()->id)->latest()->get();
+            $users = User::whereNot('users.id', Auth::user()->id)
+                            ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                            ->select('users.*', 'roles.name as role_name')
+                            ->latest()
+                            ->get();
         }
         $roles = Role::orderBy('id', 'DESC')->whereNot('name', 'like', '%super%')->get();
         $wards = Ward::latest()->get();
