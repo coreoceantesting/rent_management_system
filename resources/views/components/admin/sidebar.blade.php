@@ -4,7 +4,7 @@
         <!-- Dark Logo-->
         <a href="{{ route('dashboard') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('admin/images/sidebarlogo3.png') }}" alt="" height="22" />
+                <img src="{{ asset('admin/images/Group 1 copy 2.png') }}" alt="" height="22" />
             </span>
             <span class="logo-lg">
                 <img src="{{ asset('admin/images/sidebarlogo3.png') }}" alt="" height="17" />
@@ -13,7 +13,7 @@
         <!-- Light Logo-->
         <a href="{{ route('dashboard') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset('admin/images/sidebarlogo3.png') }}" alt="" height="35" />
+                <img src="{{ asset('admin/images/Group 1 copy 2.png') }}" alt="" height="35" />
             </span>
             <span class="logo-lg">
                 <img src="{{ asset('admin/images/sidebarlogo3.png') }}" alt="" height="35" />
