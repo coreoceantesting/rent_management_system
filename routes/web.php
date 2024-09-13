@@ -52,6 +52,7 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     // Scheme Details
     Route::resource('schemes', App\Http\Controllers\SchemeDetails\SchemeDetailsController::class);
     Route::get('/get-wards-by-region/{region_id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'getWardsByRegion']);
+    Route::put('scheme/{scheme_id}/upload-letter', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'uploadLetter'])->name('upload.letter');
 
     // Tenants Details
     Route::resource('tenants', App\Http\Controllers\TenantsDetails\TenantsDetailsController::class);

@@ -34,7 +34,8 @@ class SchemeDetailsController extends Controller
             'scheme_name',
             'scheme_proposal_number',
             'developer_name',
-            'architect_name'
+            'architect_name',
+            'scheme_confirmation_letter'
         ]);
         return view('Schemes.list')->with(['scheme_list' => $scheme_list]);
     }
@@ -145,6 +146,38 @@ class SchemeDetailsController extends Controller
     {
         $wards = Ward::where('region', $region_id)->get();
         return response()->json($wards);
+    }
+
+    public function uploadLetter(Request $request, $id)
+    {
+        try
+        {
+            DB::beginTransaction();
+
+            if ($request->hasFile('scheme_confirmation_letter')) {
+                $Doc_new = $request->file('scheme_confirmation_letter');
+                $DocPath_new = $Doc_new->store('scheme_confirmation_letter', 'public');
+            }
+
+            $input['confirmation_letter_remark'] = $request->input('remark');
+            $input['letter_upload_by'] = auth()->user()->id;
+            $input['letter_upload_at'] = now();
+
+            $schemeDetail = SchemeDetail::findOrFail($id);
+            $schemeDetail->update([
+                'scheme_confirmation_letter' => $DocPath_new,
+                'confirmation_letter_remark' => $request->input('remark'),
+                'letter_upload_by' => auth()->user()->id,
+                'letter_upload_at' => now(),
+            ]);
+            DB::commit();
+            return response()->json(['success'=> 'letter stored successfully']);
+        }
+        catch(\Exception $e)
+        {
+            return $this->respondWithAjax($e, 'storing', 'store letter');
+        }
+
     }
 
 }

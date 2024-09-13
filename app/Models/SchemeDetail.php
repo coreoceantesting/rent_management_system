@@ -26,6 +26,10 @@ class SchemeDetail extends Model
         'architect_name',
         'architect_email',
         'architect_contact_number',
+        'scheme_confirmation_letter',
+        'confirmation_letter_remark',
+        'letter_upload_by',
+        'letter_upload_at',
         'created_by_ip', 
         'updated_by_ip', 
         'deleted_by_ip'

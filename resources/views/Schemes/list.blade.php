@@ -38,6 +38,11 @@
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
                                             <td>
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'Engineer')
+                                                    @if (empty($list->scheme_confirmation_letter))
+                                                        <button class="btn btn-sm btn-primary upload-letter px-2 py-1" title="Upload Letter" data-id="{{ $list->id }}">Upload Letter</button>
+                                                    @endif    
+                                                @endif
                                                 @can('SchemeDetails.view')
                                                     <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                                 @endcan
@@ -58,7 +63,117 @@
             </div>
         </div>
 
+        {{-- Change Password Form --}}
+        <div class="modal fade" id="upload-letter-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="" id="uploadLetterForm">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Upload Letter</h5>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" id="scheme_id" name="scheme_id" value="">
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="scheme_confirmation_letter">Upload Letter <span class="text-danger">*</span></label>
+                                <input class="form-control" id="scheme_confirmation_letter" name="scheme_confirmation_letter" type="file" required>
+                                <span class="text-danger is-invalid scheme_confirmation_letter_err"></span>
+                            </div>
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="remark">Remark <span class="text-danger">*</span></label>
+                                <textarea class="form-control" name="remark" id="remark" cols="30" rows="2" placeholder="Enter remark" required></textarea>
+                                {{-- <input class="form-control" id="remark" name="remark" type="text" placeholder="Enter remark"> --}}
+                                <span class="text-danger is-invalid remark_err"></span>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" id="uploadLetterSubmit" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 </x-admin.layout>
+
+<!-- Open upload letter Modal-->
+<script>
+    $("#buttons-datatables").on("click", ".upload-letter", function(e) {
+        e.preventDefault();
+        var scheme_id = $(this).attr("data-id");
+        $('#scheme_id').val(scheme_id);
+        $('#upload-letter-modal').modal('show');
+    });
+</script>
+
+<!-- upload letter  -->
+<script>
+    $("#uploadLetterForm").submit(function(e) {
+        e.preventDefault();
+        $("#uploadLetterSubmit").prop('disabled', true);
+
+        var formdata = new FormData(this);
+        formdata.append('_method', 'PUT');
+        var model_id = $('#scheme_id').val();
+        var url = "{{ route('upload.letter', ':model_id') }}";
+
+        $.ajax({
+            url: url.replace(':model_id', model_id),
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $("#uploadLetterSubmit").prop('disabled', false);
+                if (!data.error2)
+                    swal("Successful!", data.success, "success")
+                    .then((action) => {
+                        $("#upload-letter-modal").modal('hide');
+                        // $("#uploadLetterSubmit").prop('disabled', false);
+                        window.location.reload();
+                    });
+                else
+                    swal("Error!", data.error2, "error");
+            },
+            statusCode: {
+                422: function(responseObject, textStatus, jqXHR) {
+                    $("#uploadLetterSubmit").prop('disabled', false);
+                    resetErrors();
+                    printErrMsg(responseObject.responseJSON.errors);
+                },
+                500: function(responseObject, textStatus, errorThrown) {
+                    $("#uploadLetterSubmit").prop('disabled', false);
+                    swal("Error occured!", "Something went wrong please try again", "error");
+                }
+            }
+        });
+
+        function resetErrors() {
+            var form = document.getElementById('uploadLetterForm');
+            var data = new FormData(form);
+            for (var [key, value] of data) {
+                $('.' + key + '_err').text('');
+                $('#' + key).removeClass('is-invalid');
+                $('#' + key).addClass('is-valid');
+            }
+        }
+
+        function printErrMsg(msg) {
+            $.each(msg, function(key, value) {
+                $('.' + key + '_err').text(value);
+                $('#' + key).addClass('is-invalid');
+                $('#' + key).removeClass('is-valid');
+            });
+        }
+
+    });
+</script>
 
 <!-- Delete -->
 <script>
