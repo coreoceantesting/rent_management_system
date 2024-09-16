@@ -38,6 +38,18 @@
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
                                             <td>
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'AR')
+                                                    @if (empty($list->demand_amount))
+                                                        <button class="btn btn-sm btn-primary demand-amount px-2 py-1" title="Create Demand Letter" data-id="{{ $list->id }}"><i class="fa fa-plus" aria-hidden="true"></i> Demand Letter</button>
+                                                    @endif
+                                                @endif
+
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer' )
+                                                    @if (!empty($list->demand_amount))
+                                                        <a href="{{ route('pdf.demandLetter', $list->id) }}" target="_blank" class="btn btn-sm btn-primary view-demand-amount px-2 py-1" title="view Demand Letter" data-id="{{ $list->id }}">View Demand Letter</a>
+                                                    @endif
+                                                @endif
+
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Engineer')
                                                     @if (empty($list->scheme_confirmation_letter))
                                                         <button class="btn btn-sm btn-primary upload-letter px-2 py-1" title="Upload Letter" data-id="{{ $list->id }}">Upload Letter</button>
@@ -63,7 +75,7 @@
             </div>
         </div>
 
-        {{-- Change Password Form --}}
+        {{-- Upload Letter Form --}}
         <div class="modal fade" id="upload-letter-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form action="" id="uploadLetterForm">
@@ -86,7 +98,6 @@
                             <div class="col-8 mx-auto my-2">
                                 <label class="col-form-label" for="remark">Remark <span class="text-danger">*</span></label>
                                 <textarea class="form-control" name="remark" id="remark" cols="30" rows="2" placeholder="Enter remark" required></textarea>
-                                {{-- <input class="form-control" id="remark" name="remark" type="text" placeholder="Enter remark"> --}}
                                 <span class="text-danger is-invalid remark_err"></span>
                             </div>
 
@@ -94,6 +105,54 @@
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                             <button class="btn btn-primary" id="uploadLetterSubmit" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{-- update demand amount --}}
+        <div class="modal fade" id="update-demand-amount-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="" id="demandAmountForm">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Update Demand Amount</h5>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" id="scheme_id_new" name="scheme_id_new" value="">
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="scheme_name">Scheme Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" name="scheme_name" id="scheme_name" placeholder="Enter Scheme Name" readonly>
+                                <span class="text-danger is-invalid scheme_name_err"></span>
+                            </div>
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="scheme_propsal_no">Scheme Proposal Number<span class="text-danger">*</span></label>
+                                <input class="form-control" type="number" name="scheme_propsal_no" id="scheme_propsal_no" placeholder="Enter Scheme Proposal Number" readonly>
+                                <span class="text-danger is-invalid scheme_propsal_no_err"></span>
+                            </div>
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="developer_name">Developer Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" name="developer_name" id="developer_name" placeholder="Enter Developer Name" readonly>
+                                <span class="text-danger is-invalid developer_name_err"></span>
+                            </div>
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="demand_amount">Demand Amount <span class="text-danger">*</span></label>
+                                <input class="form-control" type="number" name="demand_amount" id="demand_amount" placeholder="Enter Demand Amount" required>
+                                <span class="text-danger is-invalid demand_amount_err"></span>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" id="demandAmountSubmit" type="submit">Save</button>
                         </div>
                     </div>
                 </form>
@@ -149,6 +208,93 @@
                 },
                 500: function(responseObject, textStatus, errorThrown) {
                     $("#uploadLetterSubmit").prop('disabled', false);
+                    swal("Error occured!", "Something went wrong please try again", "error");
+                }
+            }
+        });
+
+        function resetErrors() {
+            var form = document.getElementById('uploadLetterForm');
+            var data = new FormData(form);
+            for (var [key, value] of data) {
+                $('.' + key + '_err').text('');
+                $('#' + key).removeClass('is-invalid');
+                $('#' + key).addClass('is-valid');
+            }
+        }
+
+        function printErrMsg(msg) {
+            $.each(msg, function(key, value) {
+                $('.' + key + '_err').text(value);
+                $('#' + key).addClass('is-invalid');
+                $('#' + key).removeClass('is-valid');
+            });
+        }
+
+    });
+</script>
+
+<!-- Open Enter Demand Amount Modal-->
+<script>
+    $("#buttons-datatables").on("click", ".demand-amount", function(e) {
+        e.preventDefault();
+        var scheme_id = $(this).attr("data-id");
+        $('#scheme_id_new').val(scheme_id);
+
+        // Make an AJAX request to fetch scheme details
+        $.ajax({
+            url: "/scheme-details/" + scheme_id, // Adjust the URL to your route
+            type: "GET",
+            success: function(data) {
+                $('#scheme_name').val(data.scheme_name); 
+                $('#scheme_propsal_no').val(data.scheme_proposal_number); 
+                $('#developer_name').val(data.developer_name);
+            },
+            error: function(err) {
+                console.log('Error fetching scheme details:', err);
+            }
+        });
+
+        $('#update-demand-amount-modal').modal('show');
+    });
+</script>
+
+<!-- update demand amount  -->
+<script>
+    $("#demandAmountForm").submit(function(e) {
+        e.preventDefault();
+        $("#demandAmountSubmit").prop('disabled', true);
+
+        var formdata = new FormData(this);
+        formdata.append('_method', 'PUT');
+        var model_id = $('#scheme_id_new').val();
+        var url = "{{ route('update.demandAmount', ':model_id') }}";
+
+        $.ajax({
+            url: url.replace(':model_id', model_id),
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $("#demandAmountSubmit").prop('disabled', false);
+                if (!data.error2)
+                    swal("Successful!", data.success, "success")
+                    .then((action) => {
+                        $("#update-demand-amount-modal").modal('hide');
+                        window.location.reload();
+                    });
+                else
+                    swal("Error!", data.error2, "error");
+            },
+            statusCode: {
+                422: function(responseObject, textStatus, jqXHR) {
+                    $("#demandAmountSubmit").prop('disabled', false);
+                    resetErrors();
+                    printErrMsg(responseObject.responseJSON.errors);
+                },
+                500: function(responseObject, textStatus, errorThrown) {
+                    $("#demandAmountSubmit").prop('disabled', false);
                     swal("Error occured!", "Something went wrong please try again", "error");
                 }
             }

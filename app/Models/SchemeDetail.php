@@ -30,6 +30,9 @@ class SchemeDetail extends Model
         'confirmation_letter_remark',
         'letter_upload_by',
         'letter_upload_at',
+        'demand_amount',
+        'demand_amount_inserted_by',
+        'demand_amount_inserted_at',
         'created_by_ip', 
         'updated_by_ip', 
         'deleted_by_ip'

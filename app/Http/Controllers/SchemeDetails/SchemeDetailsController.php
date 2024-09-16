@@ -11,6 +11,7 @@ use App\Models\Ward;
 use App\Models\SchemeDetail;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use mPDF;
 
 class SchemeDetailsController extends Controller
 {
@@ -35,7 +36,8 @@ class SchemeDetailsController extends Controller
             'scheme_proposal_number',
             'developer_name',
             'architect_name',
-            'scheme_confirmation_letter'
+            'scheme_confirmation_letter',
+            'demand_amount'
         ]);
         return view('Schemes.list')->with(['scheme_list' => $scheme_list]);
     }
@@ -159,10 +161,6 @@ class SchemeDetailsController extends Controller
                 $DocPath_new = $Doc_new->store('scheme_confirmation_letter', 'public');
             }
 
-            $input['confirmation_letter_remark'] = $request->input('remark');
-            $input['letter_upload_by'] = auth()->user()->id;
-            $input['letter_upload_at'] = now();
-
             $schemeDetail = SchemeDetail::findOrFail($id);
             $schemeDetail->update([
                 'scheme_confirmation_letter' => $DocPath_new,
@@ -178,6 +176,52 @@ class SchemeDetailsController extends Controller
             return $this->respondWithAjax($e, 'storing', 'store letter');
         }
 
+    }
+
+    public function updateDemandAmount(Request $request, $id)
+    {
+        try
+        {
+            DB::beginTransaction();
+
+            $schemeDetail = SchemeDetail::findOrFail($id);
+            $schemeDetail->update([
+                'demand_amount' => $request->input('demand_amount'),
+                'demand_amount_inserted_by' => auth()->user()->id,
+                'demand_amount_inserted_at' => now(),
+            ]);
+            DB::commit();
+            return response()->json(['success'=> 'Demand Amount stored successfully']);
+        }
+        catch(\Exception $e)
+        {
+            return $this->respondWithAjax($e, 'storing', 'store demand amount');
+        }
+
+    }
+
+    public function getSchemeDetails($id)
+    {
+        $scheme = SchemeDetail::find($id);
+        // dd($scheme);
+        return response()->json($scheme);
+    }
+
+    public function demandLetterPdf($id)
+    {
+        $list = SchemeDetail::findOrFail($id); // Fetch your data based on the ID
+        
+        // Create a new instance of mPDF
+        $mpdf = new \Mpdf\Mpdf();
+        
+        // Load the view and pass data to it
+        $html = view('pdf.demandLetter', compact('list'))->render();
+        
+        // Write HTML to PDF
+        $mpdf->WriteHTML($html);
+        
+        // Output the PDF to the browser
+        return $mpdf->Output('demand_letter.pdf', 'I'); // 'I' for inline display
     }
 
 }

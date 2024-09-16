@@ -52,12 +52,18 @@
                             <th>Architect Contact Number</th>
                             <td>{{ $scheme_details->architect_contact_number }}</td>
                         </tr>
-                        @if ( auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer')
+                        @if ( auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer')
                             <tr>
                                 <th>Uploaded Letter</th>
-                                <td><a href="{{ asset('storage/'.$scheme_details->scheme_confirmation_letter) }}" target="blank">View Document</a></td>
+                                <td>
+                                    @if (!empty($scheme_details->scheme_confirmation_letter))
+                                        <a href="{{ asset('storage/'.$scheme_details->scheme_confirmation_letter) }}" target="blank">View Document</a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
                                 <th>Remark</th>
-                                <td>{{ $scheme_details->confirmation_letter_remark }}</td>
+                                <td>{{ $scheme_details->confirmation_letter_remark ?? 'N/A' }}</td>
                             </tr>
                         @endif
                     </thead>

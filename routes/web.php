@@ -53,6 +53,9 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::resource('schemes', App\Http\Controllers\SchemeDetails\SchemeDetailsController::class);
     Route::get('/get-wards-by-region/{region_id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'getWardsByRegion']);
     Route::put('scheme/{scheme_id}/upload-letter', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'uploadLetter'])->name('upload.letter');
+    Route::put('scheme/{scheme_id}/update-demand-amount', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'updateDemandAmount'])->name('update.demandAmount');
+    Route::get('/scheme-details/{id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'getSchemeDetails'])->name('scheme.details');  
+    Route::get('/demand-letter/{scheme_id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'demandLetterPdf'])->name('pdf.demandLetter');
 
     // Tenants Details
     Route::resource('tenants', App\Http\Controllers\TenantsDetails\TenantsDetailsController::class);
