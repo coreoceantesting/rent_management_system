@@ -38,6 +38,11 @@
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
                                             <td>
+                                                @if ( auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer')
+                                                    @if ($list->scheme_confirmation_letter)
+                                                        <a href="{{ asset('storage/'. $list->scheme_confirmation_letter) }}" class="btn btn-sm btn-success px-2 py-1" title="Create Demand Letter" target="blank" data-id="{{ $list->id }}">Scheme Confirmation letter</a>
+                                                    @endif
+                                                @endif
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'AR')
                                                     @if (empty($list->demand_amount))
                                                         <button class="btn btn-sm btn-primary demand-amount px-2 py-1" title="Create Demand Letter" data-id="{{ $list->id }}"><i class="fa fa-plus" aria-hidden="true"></i> Demand Letter</button>
@@ -46,13 +51,13 @@
 
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer' )
                                                     @if (!empty($list->demand_amount))
-                                                        <a href="{{ route('pdf.demandLetter', $list->id) }}" target="_blank" class="btn btn-sm btn-primary view-demand-amount px-2 py-1" title="view Demand Letter" data-id="{{ $list->id }}">View Demand Letter</a>
+                                                        <a href="{{ route('pdf.demandLetter', $list->id) }}" target="_blank" class="btn btn-sm btn-warning view-demand-amount px-2 py-1" title="view Demand Letter" data-id="{{ $list->id }}">View Demand Letter</a>
                                                     @endif
                                                 @endif
 
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Engineer')
                                                     @if (empty($list->scheme_confirmation_letter))
-                                                        <button class="btn btn-sm btn-primary upload-letter px-2 py-1" title="Upload Letter" data-id="{{ $list->id }}">Upload Letter</button>
+                                                        <button class="btn btn-sm btn-info upload-letter px-2 py-1" title="Upload Letter" data-id="{{ $list->id }}">Upload Letter</button>
                                                     @endif    
                                                 @endif
                                                 @can('SchemeDetails.view')
