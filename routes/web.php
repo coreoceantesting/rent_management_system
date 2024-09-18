@@ -64,6 +64,8 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('/create-rent-details/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'createRentHistory'])->name('createRentHistory');
     Route::post('/add-rent-details', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'addRentDetails'])->name('addRentDetails');
     Route::get('/rent-details/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistory'])->name('getRentHistory');
+    Route::get('/rent-history-list', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistorylist'])->name('getRentHistoryList');
+
     // tenant approval
     Route::post('/finance-approve-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedByFinance'])->name('approvedByFinance');
     Route::post('/collector-approve-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedByCollector'])->name('approvedByCollector');
@@ -71,11 +73,14 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::post('/collector-reject-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedByCollector'])->name('rejectedByCollector');
     // tenant rent approval
     Route::post('/ar-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByAr'])->name('approvedRentByAr');
+    Route::post('/hod-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByHod'])->name('approvedRentByHod');
     Route::post('/finance-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByFinance'])->name('approvedRentByFinance');
     Route::post('/collector-approve-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedRentByCollector'])->name('approvedRentByCollector');
     Route::post('/ar-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByAr'])->name('rejectedRentByAr');
     Route::post('/finance-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByFinance'])->name('rejectedRentByFinance');
     Route::post('/collector-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByCollector'])->name('rejectedRentByCollector');
+    Route::post('/hod-reject-tenant-rent/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'rejectedRentByHod'])->name('rejectedRentByHod');
+    Route::post('/hod-approve-all-tenant-rent', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approveAllRentRequest'])->name('approveAllRentRequest');
     
 
 

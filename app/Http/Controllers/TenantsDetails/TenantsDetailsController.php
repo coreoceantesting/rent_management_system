@@ -297,6 +297,17 @@ class TenantsDetailsController extends Controller
         ]);
     }
 
+    public function getRentHistorylist()
+    {
+        $rentDetails = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->leftjoin('scheme_details', 'rent_details.scheme_id', '=', 'scheme_details.scheme_id')
+        ->orderBy('rent_details.id', 'desc')
+        ->get(['rent_details.*', 'scheme_details.scheme_name', 'scheme_details.developer_name', 'tenants_details.name_of_tenant']);
+        return view('RentHistory.allRentHistoryList')->with([
+            'rentDetails' => $rentDetails
+        ]);
+    }
+
     // approval functions
     public function approvedByFinance($id)
     {
@@ -393,6 +404,23 @@ class TenantsDetailsController extends Controller
         }
     }
 
+    public function approvedRentByHod($id)
+    {
+        try {
+
+            // Update the status
+            DB::table('rent_details')->where('id', $id)->update([
+                'hod_approval' => 'Approved',
+                'hod_approval_by' => auth()->user()->id,
+                'hod_approval_at' => now()
+            ]);
+
+            return response()->json(['success' => 'Tenant approved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error approving tenant.'], 500);
+        }
+    }
+
     public function approvedRentByFinance($id)
     {
         try {
@@ -471,6 +499,26 @@ class TenantsDetailsController extends Controller
         }
     }
 
+    public function rejectedRentByHod(Request $request, $id)
+    {
+        try {
+            // $tenantId = $request->remarkByFinanceId;
+            // $remark = $request->remarkByFinance; 
+
+            DB::table('rent_details')->where('id', $id)->update([
+                'overall_status' => 'Rejected',
+                'hod_approval' => 'Rejected',
+                'hod_approval' => auth()->user()->id,
+                'hod_approval' => now()
+            ]);
+
+
+            return response()->json(['success' => 'Tenants rent rejected successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
+
     public function rejectedRentByCollector(Request $request, $id)
     {
         try {
@@ -488,6 +536,29 @@ class TenantsDetailsController extends Controller
             return response()->json(['success' => 'Tenants rent rejected successfully!']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to reject application!'], 500);
+        }
+    }
+
+    public function approveAllRentRequest(Request $request)
+    {
+        try {
+
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Pending')
+            ->get(['id']);
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'hod_approval' => 'Approved',
+                    'hod_approval_by' => auth()->user()->id,
+                    'hod_approval_at' => now()
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
         }
     }
 }

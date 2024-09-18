@@ -106,7 +106,16 @@
                         </a>
                     </li>                    
                 @endcan
-
+                
+                @can('HOD.rentApporval')
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('getRentHistoryList') }}" >
+                            <i class="ri-task-line"></i>
+                            <span data-key="t-dashboards">Rent List For Approval</span>
+                        </a>
+                    </li>
+                @endcan
+                    
             </ul>
         </div>
     </div>

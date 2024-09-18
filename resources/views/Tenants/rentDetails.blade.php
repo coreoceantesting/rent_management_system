@@ -50,7 +50,7 @@
                                                             @if ($list->ar_approval == "Pending" && auth()->user()->roles->pluck('name')[0] == 'AR')
                                                                 <button type="button" class="btn btn-success btn-sm approvedByAr" id="approvedByAr" data-id="{{ $list->id }}">Approve</button>
                                                                 <button type="button" class="btn btn-danger btn-sm rejectByAr" id="rejectByAr" data-id="{{ $list->id }}">Reject</button>
-                                                            @elseif ($list->ar_approval == "Approved" && $list->finance_approval == "Pending")
+                                                            @elseif ($list->ar_approval == "Approved" && $list->hod_approval == "Approved" && $list->finance_approval == "Pending")
                                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Finance')
                                                                     {{-- <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
                                                                     <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button> --}}

@@ -154,6 +154,11 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'TenantsDetails.delete',
                 'group' => 'TenantsDetails',
             ],
+            [
+                'id' => 29,
+                'name' => 'HOD.rentApporval',
+                'group' => 'HOD',
+            ],
         ];
 
         foreach ($permissions as $permission)

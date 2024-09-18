@@ -27,6 +27,8 @@ return new class extends Migration
         Schema::table('scheme_details', function (Blueprint $table) {
             $table->dropColumn('scheme_confirmation_letter');
             $table->dropColumn('confirmation_letter_remark');
+            $table->dropColumn('letter_upload_by');
+            $table->dropColumn('letter_upload_at');
         });
     }
 };
