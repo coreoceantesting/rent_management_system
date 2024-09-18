@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center">Demand Letter</h1>
+    <h1 style="text-align: center"><u>Demand Letter</u></h1>
     <table style="width:100%">
         <tr>
           <th>Scheme Name</th>
