@@ -44,7 +44,7 @@
                                                     @endif
                                                 @endif
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'AR')
-                                                    @if (empty($list->demand_amount))
+                                                    @if ((empty($list->demand_amount)) && (!empty($list->scheme_confirmation_letter)))
                                                         <button class="btn btn-sm btn-primary demand-amount px-2 py-1" title="Create Demand Letter" data-id="{{ $list->id }}"><i class="fa fa-plus" aria-hidden="true"></i> Demand Letter</button>
                                                     @endif
                                                 @endif
