@@ -63,12 +63,14 @@
                                                 @can('SchemeDetails.view')
                                                     <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                                 @endcan
-                                                @can('SchemeDetails.edit')
-                                                    <a href="{{ route('schemes.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Scheme Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
-                                                @endcan
-                                                @can('SchemeDetails.delete')
-                                                    <a class="btn btn-sm text-danger rem-element px-2 py-1" title="Delete Scheme Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </a>     
-                                                @endcan
+                                                @if (!empty($list->demand_amount))
+                                                    @can('SchemeDetails.edit')
+                                                        <a href="{{ route('schemes.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Scheme Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
+                                                    @endcan
+                                                    @can('SchemeDetails.delete')
+                                                        <a class="btn btn-sm text-danger rem-element px-2 py-1" title="Delete Scheme Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </a>     
+                                                    @endcan
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
