@@ -40,7 +40,7 @@
                                             <td>
                                                 @if ( auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer')
                                                     @if ($list->scheme_confirmation_letter)
-                                                        <a href="{{ asset('storage/'. $list->scheme_confirmation_letter) }}" class="btn btn-sm btn-success px-2 py-1" title="Create Demand Letter" target="blank" data-id="{{ $list->id }}">Confirmation letter</a>
+                                                        <a href="{{ asset('storage/'. $list->scheme_confirmation_letter) }}" class="btn btn-sm btn-success px-2 py-1" title="view Confirmation letter" target="blank" data-id="{{ $list->id }}">Confirmation letter</a>
                                                     @endif
                                                 @endif
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'AR')
