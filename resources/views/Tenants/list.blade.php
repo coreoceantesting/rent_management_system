@@ -27,7 +27,7 @@
                                         <th>Eligible / Not Eligible</th>
                                         <th>Residential / Commercial</th>
                                         <th>Dy.Collector Approval</th>
-                                        <th>Overall Status</th>
+                                        {{-- <th>Overall Status</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -48,7 +48,7 @@
                                                     <span class="badge" style="background-color: #f26b6d">{{ $list->collector_approval }}</span>
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @if ( $list->overall_status == "Pending" )
                                                     <span class="badge" style="background-color: gray">{{ $list->overall_status }}</span>   
                                                 @elseif ( $list->overall_status == "Approved" )
@@ -56,18 +56,20 @@
                                                 @else
                                                     <span class="badge" style="background-color: #f26b6d">{{ $list->overall_status }}</span>
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 @can('TenantsDetails.view')
                                                     <a href="{{ route('tenants.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Tenants Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                                 @endcan
                                                 @can('TenantsDetails.edit')
-                                                    @if ($list->finance_approval == "Pending" && $list->collector_approval == "Pending")
+                                                    @if ($list->collector_approval == "Pending")
                                                         <a href="{{ route('tenants.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Tenants Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
                                                     @endif
                                                 @endcan
                                                 @can('TenantsDetails.delete')
-                                                    <a class="btn btn-sm text-danger rem-element px-2 py-1" title="Delete Tenants Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </a>     
+                                                    @if ($list->collector_approval == "Pending")
+                                                        <a class="btn btn-sm text-danger rem-element px-2 py-1" title="Delete Tenants Details" data-id="{{ $list->id }}"><i data-feather="trash-2"></i> </a>
+                                                    @endif     
                                                 @endcan
                                             </td>
                                         </tr>
