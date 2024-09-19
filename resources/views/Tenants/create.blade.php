@@ -136,8 +136,9 @@
                 if (!data.error2)
                     swal("Successful!", data.success, "success")
                         .then((action) => {
-                            var tenantId = data.tenant_id;
-                            window.location.href = '{{ url('/create-rent-details') }}/' + tenantId;
+                            // var tenantId = data.tenant_id;
+                            // window.location.href = '{{ url('/create-rent-details') }}/' + tenantId;
+                            window.location.reload();
                         });
                 else
                     swal("Error!", data.error2, "error");
