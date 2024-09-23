@@ -26,6 +26,7 @@
                                         <th>Scheme Proposal Number</th>
                                         <th>Developer Name</th>
                                         <th>Architect Name</th>
+                                        <th>Available Final Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -37,6 +38,7 @@
                                             <td>{{ $list->scheme_proposal_number }}</td>
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
+                                            <td>{{ $list->final_amount ?? 'NA' }}</td>
                                             <td>
                                                 @if ( auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer')
                                                     @if ($list->scheme_confirmation_letter)

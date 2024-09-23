@@ -26,6 +26,7 @@
                                 <div class="col-md-4">
                                     <label for="rent_paid" class="form-label">Rent Paid <span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" name="rent_paid" id="rent_paid" placeholder="Enter Rent Paid" required>
+                                    <small id="balance-check-message" class="text-danger"></small>
                                 </div>
 
                                 <div class="col-md-4">
@@ -110,6 +111,42 @@
             }
         });
 
+    });
+</script>
+
+{{-- check balance --}}
+<script>
+    $(document).ready(function() {
+        $('#rent_paid').on('input', function() {
+            var rentPaid = $(this).val();
+            var tenantId = $('#tenant_id').val(); 
+
+            // Only check if a valid number is entered
+            if (rentPaid && $.isNumeric(rentPaid)) {
+                $.ajax({
+                    url: '/check-balance', // Replace with your actual route
+                    type: 'GET',
+                    data: {
+                        rent_paid: rentPaid,
+                        tenant_id: tenantId
+                    },
+                    success: function(response) {
+                        if (response.status === 'insufficient') {
+                            $('#balance-check-message').text('Insufficient balance. Available Balance Is: ' + response.balance);
+                            $('#addSubmit').attr("disabled", true);
+                        } else {
+                            $('#balance-check-message').text(''); 
+                            $('#addSubmit').attr("disabled", false);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error); // Handle error
+                    }
+                });
+            } else {
+                $('#balance-check-message').text('Please enter a valid amount.');
+            }
+        });
     });
 </script>
 

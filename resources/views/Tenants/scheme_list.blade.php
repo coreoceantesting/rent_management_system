@@ -15,6 +15,7 @@
                                         <th>Scheme Proposal Number</th>
                                         <th>Developer Name</th>
                                         <th>Architect Name</th>
+                                        <th>Available Final Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -26,6 +27,7 @@
                                             <td>{{ $list->scheme_proposal_number }}</td>
                                             <td>{{ $list->developer_name }}</td>
                                             <td>{{ $list->architect_name }}</td>
+                                            <td>{{ $list->final_amount ?? 'NA' }}</td>
                                             <td>
                                                 <a href="{{ route('getTenants', $list->scheme_id) }}" class="view-details btn btn-sm btn-primary">View Tenants Details</a>
                                                 <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>

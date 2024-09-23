@@ -69,6 +69,10 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('/rent-details/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistory'])->name('getRentHistory');
     Route::get('/rent-history-list', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistorylist'])->name('getRentHistoryList');
 
+    // check balance
+    Route::get('/check-balance', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'checkBalance'])->name('check.balance');
+
+
     // tenant approval
     Route::post('/finance-approve-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedByFinance'])->name('approvedByFinance');
     Route::post('/collector-approve-tenant/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'approvedByCollector'])->name('approvedByCollector');

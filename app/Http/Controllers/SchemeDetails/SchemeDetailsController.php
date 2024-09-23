@@ -39,7 +39,8 @@ class SchemeDetailsController extends Controller
             'developer_name',
             'architect_name',
             'scheme_confirmation_letter',
-            'demand_amount'
+            'demand_amount',
+            'final_amount'
         ]);
         return view('Schemes.list')->with(['scheme_list' => $scheme_list]);
     }
@@ -285,7 +286,7 @@ class SchemeDetailsController extends Controller
             $schemeDetail->update([
                 'final_amount' => $amount,
             ]);
-            
+
             DB::commit();
             return response()->json(['success'=> 'Final amount stored successfully']);
         }

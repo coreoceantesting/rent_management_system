@@ -37,7 +37,8 @@ class TenantsDetailsController extends Controller
             'scheme_name',
             'scheme_proposal_number',
             'developer_name',
-            'architect_name'
+            'architect_name',
+            'final_amount'
         ]);
         return view('Tenants.scheme_list')->with(['scheme_list' => $scheme_list]);
     }
@@ -270,6 +271,12 @@ class TenantsDetailsController extends Controller
         }
 
         RentDetail::create($data);
+        
+        $schemeDetails = SchemeDetail::where('scheme_id', $tenant_detail->scheme_name)->first(['final_amount']);
+        $remainingAmount = $schemeDetails->final_amount - $request->rent_paid;
+        DB::table('scheme_details')->where('scheme_id', $tenant_detail->scheme_name)->update([
+            'final_amount' => $remainingAmount
+        ]); 
 
         return response()->json(['success' => 'Rent details added successfully.']);
     }
@@ -560,5 +567,21 @@ class TenantsDetailsController extends Controller
         catch(\Exception $e){
             return response()->json(['error' => 'Error approving tenents rent.'], 500);
         }
+    }
+
+    public function checkBalance(Request $request)
+    {
+        $tenantId = $request->tenant_id;
+        $rentPaid = $request->rent_paid;
+
+        $tenant = TenantsDetail::find($tenantId);
+        $availableBal = SchemeDetail::where('scheme_id', $tenant->scheme_name)->first(['final_amount']);
+        $availableBalance = $availableBal->final_amount; 
+
+        if ($rentPaid > $availableBalance) {
+            return response()->json(['status' => 'insufficient', 'balance' => $availableBalance]);
+        }
+
+        return response()->json(['status' => 'sufficient', 'balance' => $availableBalance]);
     }
 }
