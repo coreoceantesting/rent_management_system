@@ -58,6 +58,7 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('/demand-letter/{scheme_id}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'demandLetterPdf'])->name('pdf.demandLetter');
     Route::put('scheme/{scheme_id}/upload-payment-slip', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'uploadPaymentSlip'])->name('upload.PaymentSlip');
     Route::get('/view-payment-slips-list/{schemeId}', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'view_payment_slips_list'])->name('view_payment_slips_list');
+    Route::put('scheme/{scheme_id}/update-final-amount', [App\Http\Controllers\SchemeDetails\SchemeDetailsController::class, 'updateFinalAmount'])->name('update.finalAmount');
 
     // Tenants Details
     Route::resource('tenants', App\Http\Controllers\TenantsDetails\TenantsDetailsController::class);

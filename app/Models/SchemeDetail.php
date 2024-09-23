@@ -21,6 +21,7 @@ class SchemeDetail extends Model
         'scheme_cst_number',
         'scheme_proposal_number',
         'developer_name',
+        'final_amount',
         'developer_email',
         'developer_contact_number',
         'architect_name',

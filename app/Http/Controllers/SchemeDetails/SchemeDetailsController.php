@@ -33,6 +33,7 @@ class SchemeDetailsController extends Controller
 
         $scheme_list = $query->latest()->get([
             'id',
+            'scheme_id',
             'scheme_name',
             'scheme_proposal_number',
             'developer_name',
@@ -263,6 +264,36 @@ class SchemeDetailsController extends Controller
         return response()->json([
             'payment_slip_lists' => $payment_slip_lists,
         ]);
+    }
+
+    public function updateFinalAmount(Request $request, $id)
+    {
+        try
+        {
+            DB::beginTransaction();
+
+            $schemeDetail = SchemeDetail::findOrFail($id);
+
+            $amount = 0;
+            if(empty($schemeDetail->final_amount))
+            {
+                $amount = $amount + $request->input('final_amount');
+            }else{
+                $amount = $schemeDetail->final_amount + $request->input('final_amount');
+            }
+
+            $schemeDetail->update([
+                'final_amount' => $amount,
+            ]);
+            
+            DB::commit();
+            return response()->json(['success'=> 'Final amount stored successfully']);
+        }
+        catch(\Exception $e)
+        {
+            return $this->respondWithAjax($e, 'storing', 'store final amount');
+        }
+
     }
 
 }

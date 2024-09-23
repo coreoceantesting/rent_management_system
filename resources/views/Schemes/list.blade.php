@@ -43,6 +43,7 @@
                                                         <a href="{{ asset('storage/'. $list->scheme_confirmation_letter) }}" class="btn btn-sm btn-success px-2 py-1" title="view Confirmation letter" target="blank" data-id="{{ $list->id }}">Confirmation letter</a>
                                                     @endif
                                                 @endif
+
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'AR')
                                                     @if ((empty($list->demand_amount)) && (!empty($list->scheme_confirmation_letter)))
                                                         <button class="btn btn-sm btn-primary demand-amount px-2 py-1" title="Create Demand Letter" data-id="{{ $list->id }}"><i class="fa fa-plus" aria-hidden="true"></i> Demand Letter</button>
@@ -69,10 +70,14 @@
 
                                                 <button class="btn btn-sm btn-dark uploaded-payment-slip-list px-2 py-1" title="Uploaded Payment Slip List" data-id="{{ $list->id }}"><i class="ri-file-list-line"></i> Payment Slips</button>
                                                 
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'Finance Clerk')
+                                                    <button class="btn btn-sm btn-primary update-final-amount px-2 py-1" title="Update Final Amount" data-id="{{ $list->id }}"><i class="ri-file-add-line"></i> Update Final Amount</button>
+                                                @endif
 
                                                 @can('SchemeDetails.view')
                                                     <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                                 @endcan
+                                                
                                                 @if (empty($list->demand_amount))
                                                     @can('SchemeDetails.edit')
                                                         <a href="{{ route('schemes.edit', $list->id) }}" class="edit-element btn btn-sm text-secondary px-2 py-1" title="Edit Scheme Details" data-id="{{ $list->id }}"><i data-feather="edit"></i></a>
@@ -229,6 +234,36 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        {{-- update Final amount --}}
+        <div class="modal fade" id="update-final-amount-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="" id="finalAmountForm">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Update Final Amount</h5>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" id="scheme_id_for_final_amount" name="scheme_id_for_final_amount" value="">
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="final_amount">Update Final Amount <span class="text-danger">*</span></label>
+                                <input class="form-control" type="number" name="final_amount" id="final_amount" placeholder="Enter Final Amount">
+                                <span class="text-danger is-invalid final_amount_err"></span>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" id="finalAmountSubmit" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -565,6 +600,78 @@
                 }
             });
         });
+    });
+</script>
+
+<!-- Open Enter final Amount Modal-->
+<script>
+    $("#buttons-datatables").on("click", ".update-final-amount", function(e) {
+        e.preventDefault();
+        var scheme_id = $(this).attr("data-id");
+        $('#scheme_id_for_final_amount').val(scheme_id);
+        $('#update-final-amount-modal').modal('show');
+    });
+</script>
+
+<!-- update Final amount  -->
+<script>
+    $("#finalAmountForm").submit(function(e) {
+        e.preventDefault();
+        $("#finalAmountSubmit").prop('disabled', true);
+
+        var formdata = new FormData(this);
+        formdata.append('_method', 'PUT');
+        var model_id = $('#scheme_id_for_final_amount').val();
+        var url = "{{ route('update.finalAmount', ':model_id') }}";
+
+        $.ajax({
+            url: url.replace(':model_id', model_id),
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $("#finalAmountSubmit").prop('disabled', false);
+                if (!data.error2)
+                    swal("Successful!", data.success, "success")
+                    .then((action) => {
+                        $("#update-final-amount-modal").modal('hide');
+                        window.location.reload();
+                    });
+                else
+                    swal("Error!", data.error2, "error");
+            },
+            statusCode: {
+                422: function(responseObject, textStatus, jqXHR) {
+                    $("#finalAmountSubmit").prop('disabled', false);
+                    resetErrors();
+                    printErrMsg(responseObject.responseJSON.errors);
+                },
+                500: function(responseObject, textStatus, errorThrown) {
+                    $("#finalAmountSubmit").prop('disabled', false);
+                    swal("Error occured!", "Something went wrong please try again", "error");
+                }
+            }
+        });
+
+        function resetErrors() {
+            var form = document.getElementById('finalAmountForm');
+            var data = new FormData(form);
+            for (var [key, value] of data) {
+                $('.' + key + '_err').text('');
+                $('#' + key).removeClass('is-invalid');
+                $('#' + key).addClass('is-valid');
+            }
+        }
+
+        function printErrMsg(msg) {
+            $.each(msg, function(key, value) {
+                $('.' + key + '_err').text(value);
+                $('#' + key).addClass('is-invalid');
+                $('#' + key).removeClass('is-valid');
+            });
+        }
+
     });
 </script>
 
