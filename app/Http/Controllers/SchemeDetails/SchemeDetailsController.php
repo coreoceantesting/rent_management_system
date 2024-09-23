@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\SchemeDetails\UpdateSchemeDetailsRequest;
 use App\Models\Region;
 use App\Models\Ward;
 use App\Models\SchemeDetail;
+use App\Models\PaymentSlip;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use mPDF;
@@ -222,6 +223,46 @@ class SchemeDetailsController extends Controller
         
         // Output the PDF to the browser
         return $mpdf->Output('demand_letter.pdf', 'I'); // 'I' for inline display
+    }
+
+    public function uploadPaymentSlip(Request $request, $id)
+    {
+        try
+        {
+            DB::beginTransaction();
+
+            if ($request->hasFile('payment_slip')) {
+                $Doc_new = $request->file('payment_slip');
+                $DocPath_new = $Doc_new->store('PaymentSlip', 'public');
+            }
+
+            PaymentSlip::create([
+                'scheme_id' => $id,
+                'remark' => $request->input('remark_for_payment_slip'),
+                'payment_slip' => $DocPath_new,
+                'upload_on' => now(),
+            ]);
+            DB::commit();
+            return response()->json(['success'=> 'Payment Slip stored successfully']);
+        }
+        catch(\Exception $e)
+        {
+            return $this->respondWithAjax($e, 'storing', 'Payment Slip');
+        }
+    }
+
+    public function view_payment_slips_list($schemeId)
+    {
+        $payment_slip_lists = PaymentSlip::where('scheme_id', $schemeId)->latest()->get([
+            'scheme_id',
+            'payment_slip',
+            'remark',
+            'upload_on'
+        ]);
+
+        return response()->json([
+            'payment_slip_lists' => $payment_slip_lists,
+        ]);
     }
 
 }

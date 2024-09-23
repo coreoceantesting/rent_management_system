@@ -60,6 +60,16 @@
                                                         <button class="btn btn-sm btn-info upload-letter px-2 py-1" title="Upload Letter" data-id="{{ $list->id }}">Upload Letter</button>
                                                     @endif    
                                                 @endif
+
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'Developer')
+                                                    @if (!empty($list->demand_amount))
+                                                        <button class="btn btn-sm btn-secondary upload-payment-slip px-2 py-1" title="Upload Payment Slip" data-id="{{ $list->id }}">Upload Payment Slip</button>
+                                                    @endif    
+                                                @endif
+
+                                                <button class="btn btn-sm btn-dark uploaded-payment-slip-list px-2 py-1" title="Uploaded Payment Slip List" data-id="{{ $list->id }}"><i class="ri-file-list-line"></i> Payment Slips</button>
+                                                
+
                                                 @can('SchemeDetails.view')
                                                     <a href="{{ route('schemes.show', $list->id) }}" class="view-element btn btn-sm text-warning px-2 py-1" title="View Scheme Details" data-id="{{ $list->id }}"><i data-feather="eye"></i></a>
                                                 @endcan
@@ -163,6 +173,62 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        {{-- Upload Payment Slip --}}
+        <div class="modal fade" id="upload-payment-slip-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="" id="uploadPaymentSlipForm">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Upload Payment Slip</h5>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" id="scheme_id_for_payment_slip" name="scheme_id_for_payment_slip" value="">
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="payment_slip">Upload Slip <span class="text-danger">*</span></label>
+                                <input class="form-control" id="payment_slip" name="payment_slip" type="file" required>
+                                <span class="text-danger is-invalid payment_slip_err"></span>
+                            </div>
+
+                            <div class="col-8 mx-auto my-2">
+                                <label class="col-form-label" for="remark_for_payment_slip">Remark</label>
+                                <textarea class="form-control" name="remark_for_payment_slip" id="remark_for_payment_slip" cols="30" rows="2" placeholder="Enter remark"></textarea>
+                                <span class="text-danger is-invalid remark_for_payment_slip_err"></span>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" id="uploadPaymentSlipSubmit" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{-- View Payment Slip List --}}
+        <div class="modal fade" id="payment-slips-list-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewPaymentSlips">View Payment Slips</h5>
+                        <button type="button" class="close btn btn-secondary btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="viewPaymentList"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -328,6 +394,79 @@
     });
 </script>
 
+<!-- Open upload payment slip Modal-->
+<script>
+    $("#buttons-datatables").on("click", ".upload-payment-slip", function(e) {
+        e.preventDefault();
+        var scheme_id = $(this).attr("data-id");
+        $('#scheme_id_for_payment_slip').val(scheme_id);
+        $('#upload-payment-slip-modal').modal('show');
+    });
+</script>
+
+<!-- upload payment slip  -->
+<script>
+    $("#uploadPaymentSlipForm").submit(function(e) {
+        e.preventDefault();
+        $("#uploadPaymentSlipSubmit").prop('disabled', true);
+
+        var formdata = new FormData(this);
+        formdata.append('_method', 'PUT');
+        var model_id = $('#scheme_id_for_payment_slip').val();
+        var url = "{{ route('upload.PaymentSlip', ':model_id') }}";
+
+        $.ajax({
+            url: url.replace(':model_id', model_id),
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $("#uploadLetterSubmit").prop('disabled', false);
+                if (!data.error2)
+                    swal("Successful!", data.success, "success")
+                    .then((action) => {
+                        $("#upload-payment-slip-modal").modal('hide');
+                        // $("#uploadLetterSubmit").prop('disabled', false);
+                        window.location.reload();
+                    });
+                else
+                    swal("Error!", data.error2, "error");
+            },
+            statusCode: {
+                422: function(responseObject, textStatus, jqXHR) {
+                    $("#uploadLetterSubmit").prop('disabled', false);
+                    resetErrors();
+                    printErrMsg(responseObject.responseJSON.errors);
+                },
+                500: function(responseObject, textStatus, errorThrown) {
+                    $("#uploadLetterSubmit").prop('disabled', false);
+                    swal("Error occured!", "Something went wrong please try again", "error");
+                }
+            }
+        });
+
+        function resetErrors() {
+            var form = document.getElementById('uploadLetterForm');
+            var data = new FormData(form);
+            for (var [key, value] of data) {
+                $('.' + key + '_err').text('');
+                $('#' + key).removeClass('is-invalid');
+                $('#' + key).addClass('is-valid');
+            }
+        }
+
+        function printErrMsg(msg) {
+            $.each(msg, function(key, value) {
+                $('.' + key + '_err').text(value);
+                $('#' + key).addClass('is-invalid');
+                $('#' + key).removeClass('is-valid');
+            });
+        }
+
+    });
+</script>
+
 <!-- Delete -->
 <script>
     $("#buttons-datatables").on("click", ".rem-element", function(e) {
@@ -374,3 +513,58 @@
         });
     });
 </script>
+
+{{-- payment slips list --}}
+<script>
+    $(document).ready(function() {
+
+        $('.uploaded-payment-slip-list').on('click', function() {
+            var schemeId = $(this).data('id');
+
+            // Fetch Payment slip details from the JSON endpoint
+            $.ajax({
+                url: '/view-payment-slips-list/' + schemeId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+
+                    var tableHtml = '';
+                    if (data.payment_slip_lists && data.payment_slip_lists.length > 0) {
+                        tableHtml += '<br><h3 class="text-center"> Payment Slips List </h3><br>';
+                        tableHtml += '<table id="paymentSlipsList" class="table table-bordered">';
+                        tableHtml += '<thead><tr>';
+                        tableHtml += '<th scope="col">Uploaded Payment Slip</th>';
+                        tableHtml += '<th scope="col">Uploaded On</th>';
+                        tableHtml += '</tr></thead>';
+                        tableHtml += '<tbody>';
+                        // Loop through payment slip details
+                        data.payment_slip_lists.forEach(function(list) {
+                            tableHtml += '<tr>';
+                            tableHtml += '<td>';
+                            if (list.payment_slip) {  // Check if payment slip exists
+                                tableHtml += '<a href="/storage/' + list.payment_slip + '" target="_blank">View Payment Slip</a>';
+                            } else {
+                                tableHtml += 'NA';
+                            }
+                            tableHtml += '</td>';
+                            tableHtml += '<td>' + list.upload_on + '</td>';
+                            tableHtml += '</tr>';
+                        });
+                        tableHtml += '</tbody></table>';
+                    } else {
+                        tableHtml += '<h3 class="text-center">No Data Available</h3>';
+                    }
+
+                    // Display table in the modal
+                    $('#viewPaymentList').html(tableHtml);
+                    $('#payment-slips-list-modal').modal('show');
+
+                }, // <-- Removed the extra closing parenthesis here
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
