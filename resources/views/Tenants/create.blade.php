@@ -12,6 +12,7 @@
 
                         <div class="card-header">
                             <h4 class="card-title">Add Tenants Details</h4>
+                            <p class="text-danger">* Please do not use any special characters while filling out the form.</p>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">

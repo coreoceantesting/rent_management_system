@@ -49,11 +49,11 @@
                                                     @endif
                                                 @endif
 
-                                                @if (auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer' )
+                                                {{-- @if (auth()->user()->roles->pluck('name')[0] == 'AR' || auth()->user()->roles->pluck('name')[0] == 'Developer' || auth()->user()->roles->pluck('name')[0] == 'Engineer' ) --}}
                                                     @if (!empty($list->demand_amount))
                                                         <a href="{{ route('pdf.demandLetter', $list->id) }}" target="_blank" class="btn btn-sm btn-warning view-demand-amount px-2 py-1" title="view Demand Letter" data-id="{{ $list->id }}">Demand Letter</a>
                                                     @endif
-                                                @endif
+                                                {{-- @endif --}}
 
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Engineer')
                                                     @if (empty($list->scheme_confirmation_letter))
