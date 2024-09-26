@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header d-none">
+                    <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-md-4 text-left">
                                 <a id="approvedAll" class="btn btn-primary approvedAll">Approve All</a>

@@ -115,6 +115,13 @@
                         </a>
                     </li>
                 @endcan
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('financeSectionList') }}" >
+                        <i class="ri-task-line"></i>
+                        <span data-key="t-dashboards">Approval For Finance Section</span>
+                    </a>
+                </li>
                     
             </ul>
         </div>

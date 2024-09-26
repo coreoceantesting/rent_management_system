@@ -69,6 +69,21 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('/rent-details/{tenant_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistory'])->name('getRentHistory');
     Route::get('/rent-history-list', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentHistorylist'])->name('getRentHistoryList');
 
+    Route::get('/rent-list-for-finance', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'financeSectionList'])->name('financeSectionList');
+    Route::get('/get-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentList'])->name('getRentList');
+    Route::get('/get-sbi-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getSbiRentList'])->name('getSbiRentList');
+    Route::get('/get-non-sbi-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getNonSbiRentList'])->name('getNonSbiRentList');
+
+    // finance department Approval
+    Route::post('/finance-clerk-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'financeClerkApproveAll'])->name('financeClerkApproveAll');
+    Route::post('/assistant-account-officer-two-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'assistantAccountOfficerTwoApproveAll'])->name('assistantAccountOfficerTwoApproveAll');
+    Route::post('/account-officer-two-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'accountOfficerTwoApproveAll'])->name('accountOfficerTwoApproveAll');
+    Route::post('/finance-controller-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'financeControllerApproveAll'])->name('financeControllerApproveAll');
+    Route::post('/account-officer-one-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'accountOfficerOneApproveAll'])->name('accountOfficerOneApproveAll');
+    Route::post('/dy-accountant-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'dyAccountantApproveAll'])->name('dyAccountantApproveAll');
+    Route::post('/final-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'finalApproveAll'])->name('finalApproveAll');
+
+
     // check balance
     Route::get('/check-balance', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'checkBalance'])->name('check.balance');
 

@@ -54,8 +54,8 @@
                                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Finance')
                                                                     {{-- <button type="button" class="btn btn-success btn-sm approvedByCollector" id="approvedByCollector" data-id="{{ $list->id }}">Approve</button>
                                                                     <button type="button" class="btn btn-danger btn-sm rejectByCollector" id="rejectByCollector" data-id="{{ $list->id }}">Reject</button> --}}
-                                                                    <button type="button" class="btn btn-success btn-sm approvedByFinance" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
-                                                                    <button type="button" class="btn btn-danger btn-sm rejectByFinance" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button>
+                                                                    {{-- <button type="button" class="btn btn-success btn-sm approvedByFinance" id="approvedByFinance" data-id="{{ $list->id }}">Approve</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm rejectByFinance" id="rejectByFinance" data-id="{{ $list->id }}">Reject</button> --}}
                                                                 @else
                                                                     <span class="badge" style="background-color: gray">Pending</span>
                                                                 @endif

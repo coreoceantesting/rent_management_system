@@ -584,4 +584,343 @@ class TenantsDetailsController extends Controller
 
         return response()->json(['status' => 'sufficient', 'balance' => $availableBalance]);
     }
+
+
+    // finance section approval section
+
+    public function financeSectionList()
+    {
+        $query = SchemeDetail::query();
+
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
+            $query->where('created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('ward_name', $wards);
+        }
+
+        $scheme_list = $query->latest()->get([
+            'id',
+            'scheme_id',
+            'scheme_name',
+            'scheme_proposal_number',
+            'developer_name',
+            'architect_name',
+            'final_amount'
+        ]);
+        return view('FinanceApproval.finance_approval')->with(['scheme_list' => $scheme_list]);
+    }
+
+    public function getRentList($scheme_id)
+    {
+        $userRole = auth()->user()->roles->pluck('name')[0];
+        // dd($userRole);
+        $query = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->leftjoin('scheme_details', 'rent_details.scheme_id', '=', 'scheme_details.scheme_id')
+        ->where('rent_details.scheme_id', $scheme_id)
+        ->where('rent_details.overall_status', 'Pending')
+        ->where('rent_details.ar_approval', 'Approved')
+        ->where('rent_details.hod_approval', 'Approved')
+        ->orderBy('rent_details.id', 'desc')
+        ->select('rent_details.*', 'scheme_details.scheme_name', 'tenants_details.name_of_tenant');
+
+        switch ($userRole) {
+            case 'Finance Clerk':
+                $query->where('rent_details.finance_dept_approval', 'Pending');
+                break;
+            case 'Assistant Account Officer 2':
+                $query->where('rent_details.finance_dept_approval', 'Approved By Finance Clerk');
+                break;
+            case 'Account Officer 2':
+                $query->where('rent_details.finance_dept_approval', 'Approved By Assistant Account Officer Two');
+                break;
+            case 'Finance Controller':
+                $query->where('rent_details.finance_dept_approval', 'Approved By Account Officer Two');
+                break;
+            case 'Account Officer 1':
+                $query->where('rent_details.finance_dept_approval', 'Approved By Finance Controller')->orWhere('rent_details.finance_dept_approval', 'Approved By Dy Accountant');
+                break;
+            case 'Dy Accountant':
+                $query->where('rent_details.finance_dept_approval', 'Approved By Account Officer One');
+                break;
+        }
+
+        $rentDetails = $query->get();
+        // dd($rentDetails);
+
+        return view('FinanceApproval.rentList')->with([
+            'rentDetails' => $rentDetails,
+            'scheme_id' => $scheme_id
+        ]);
+    }
+
+    public function financeClerkApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remark');
+            $scheme_id = $request->input('scheme_id_one');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Pending')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'finance_dept_approval' => 'Approved By Finance Clerk',
+                    'finance_clerk_approval_remark' => $remark,
+                    'finance_clerk_approval_at' => now(),
+                    'finance_clerk_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function assistantAccountOfficerTwoApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remarksAAOT');
+            $scheme_id = $request->input('scheme_id_two');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Approved By Finance Clerk')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'finance_dept_approval' => 'Approved By Assistant Account Officer Two',
+                    'assistant_account_officer_two_approval_remark' => $remark,
+                    'assistant_account_officer_two_approval_at' => now(),
+                    'assistant_account_officer_two_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function accountOfficerTwoApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remarksAOT');
+            $scheme_id = $request->input('scheme_id_three');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Approved By Assistant Account Officer Two')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'finance_dept_approval' => 'Approved By Account Officer Two',
+                    'account_officer_two_approval_remark' => $remark,
+                    'account_officer_two_approval_at' => now(),
+                    'account_officer_two_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function financeControllerApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remarksFC');
+            $scheme_id = $request->input('scheme_id_four');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Approved By Account Officer Two')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'finance_dept_approval' => 'Approved By Finance Controller',
+                    'finance_controller_approval_remark' => $remark,
+                    'finance_controller_approval_at' => now(),
+                    'finance_controller_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function accountOfficerOneApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remarksAOO');
+            $scheme_id = $request->input('scheme_id_five');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Approved By Finance Controller')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'finance_dept_approval' => 'Approved By Account Officer One',
+                    'account_officer_one_approval_remark' => $remark,
+                    'account_officer_one_approval_at' => now(),
+                    'account_officer_one_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function dyAccountantApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remarksDYA');
+            $scheme_id = $request->input('scheme_id_six');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Approved By Account Officer One')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'finance_dept_approval' => 'Approved By Dy Accountant',
+                    'dy_accountant_approval_remark' => $remark,
+                    'dy_accountant_approval_at' => now(),
+                    'dy_accountant_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function finalApproveAll(Request $request)
+    {
+        try {
+
+            $remark = $request->input('remarksFinalApproval');
+            $scheme_id = $request->input('scheme_id_seven');
+            $rentListToBeApprove = RentDetail::where('overall_status', 'Pending')
+            ->where('ar_approval', 'Approved')->where('hod_approval', 'Approved')
+            ->where('finance_dept_approval', 'Approved By Dy Accountant')
+            ->where('scheme_id', $scheme_id)
+            ->get(['id']);
+
+            if ($rentListToBeApprove->isEmpty()) {
+                return response()->json(['error' => 'No pending rent records found for approval.']);
+            }
+
+            foreach($rentListToBeApprove as $list){
+
+                DB::table('rent_details')->where('id', $list->id)->update([
+                    'overall_status' => 'Approved',
+                    'finance_dept_approval' => 'Final Approved',
+                    'final_approval_remark' => $remark,
+                    'final_approval_at' => now(),
+                    'final_approval_by' => auth()->user()->id
+                ]);
+            }
+            return response()->json(['success' => 'All tenents rent approved successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error approving tenents rent.'], 500);
+        }
+    }
+
+    public function getSbiRentList($scheme_id)
+    {
+        $rentDetails = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->where('rent_details.scheme_id', $scheme_id)
+        ->where('rent_details.ar_approval', 'Approved')
+        ->where('rent_details.hod_approval', 'Approved')
+        ->where('tenants_details.bank_name', 'LIKE', '%sbi%')
+        ->orderBy('rent_details.id', 'desc')
+        ->select(
+            'tenants_details.name_of_tenant', 
+            'tenants_details.bank_account_no', 
+            'tenants_details.ifsc_code',
+            'tenants_details.bank_name',
+            'rent_details.rent_paid',
+        )->get();
+
+        return view('FinanceApproval.sbi_rent_list')->with([
+            'rentDetails' => $rentDetails,
+            'scheme_id' => $scheme_id
+        ]);
+    }
+
+    public function getNonSbiRentList($scheme_id)
+    {
+        $rentDetails = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->where('rent_details.scheme_id', $scheme_id)
+        ->where('rent_details.ar_approval', 'Approved')
+        ->where('rent_details.hod_approval', 'Approved')
+        ->where('tenants_details.bank_name', 'NOT LIKE', '%sbi%')
+        ->orderBy('rent_details.id', 'desc')
+        ->select(
+            'tenants_details.name_of_tenant', 
+            'tenants_details.bank_account_no', 
+            'tenants_details.ifsc_code',
+            'tenants_details.bank_name',
+            'rent_details.rent_paid',
+        )->get();
+
+        return view('FinanceApproval.non_sbi_rent_list')->with([
+            'rentDetails' => $rentDetails,
+            'scheme_id' => $scheme_id
+        ]);
+    }
+    
 }
