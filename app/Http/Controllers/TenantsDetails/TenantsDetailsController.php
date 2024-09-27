@@ -922,5 +922,122 @@ class TenantsDetailsController extends Controller
             'scheme_id' => $scheme_id
         ]);
     }
+
+    public function addSbiChequeDetails(Request $request)
+    {
+        try {
+
+            $cheque_no = $request->input('cheque_no');
+            $cheque_date = $request->input('cheque_date');
+            $amount = $request->input('amount');
+            $scheme_id = $request->input('scheme_id');
+
+            DB::table('cheque_details')->insert([
+                'scheme_id' => $scheme_id,
+                'cheque_no' => $cheque_no,
+                'cheque_date' => $cheque_date,
+                'amount' => $amount,
+                'bank_name' => 'SBI',
+                'created_at' => now(),
+                'created_by' => auth()->user()->id
+            ]);
+        
+            return response()->json(['success' => 'Cheque details added successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error adding cheque details.'], 500);
+        }
+    }
+
+    public function addNonSbiChequeDetails(Request $request)
+    {
+        try {
+
+            $cheque_no = $request->input('cheque_no');
+            $cheque_date = $request->input('cheque_date');
+            $amount = $request->input('amount');
+            $scheme_id = $request->input('scheme_id');
+
+            DB::table('cheque_details')->insert([
+                'scheme_id' => $scheme_id,
+                'cheque_no' => $cheque_no,
+                'cheque_date' => $cheque_date,
+                'amount' => $amount,
+                'bank_name' => 'Other',
+                'created_at' => now(),
+                'created_by' => auth()->user()->id
+            ]);
+        
+            return response()->json(['success' => 'Cheque details added successfully!']);
+        }
+        catch(\Exception $e){
+            return response()->json(['error' => 'Error adding cheque details.'], 500);
+        }
+    }
+
+    public function getAllApprove(Request $request)
+    {
+        $query = SchemeDetail::query();
+
+        if (auth()->user()->roles->pluck('name')[0] == 'Developer') {
+            $query->where('created_by', auth()->user()->id);
+        } elseif (auth()->user()->roles->pluck('name')[0] == 'AR') {
+            $wards = explode(',', auth()->user()->ward);
+            $query->whereIn('ward_name', $wards);
+        }
+
+        $scheme_list = $query->latest()->get([
+            'id',
+            'scheme_id',
+            'scheme_name',
+            'scheme_proposal_number',
+            'developer_name',
+            'architect_name',
+            'final_amount'
+        ]);
+        return view('FinanceApproval.all_finance_approved_list')->with(['scheme_list' => $scheme_list]);
+    }
+
+    public function getFinalApproveSbiRentList($scheme_id)
+    {
+        $rentDetails = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->where('rent_details.scheme_id', $scheme_id)
+        ->where('rent_details.overall_status', 'Approved')
+        ->where('tenants_details.bank_name', 'LIKE', '%sbi%')
+        ->orderBy('rent_details.id', 'desc')
+        ->select(
+            'tenants_details.name_of_tenant', 
+            'tenants_details.bank_account_no', 
+            'tenants_details.ifsc_code',
+            'tenants_details.bank_name',
+            'rent_details.rent_paid',
+        )->get(); 
+
+        return view('FinanceApproval.approve_sbi_list')->with([
+            'rentDetails' => $rentDetails
+        ]);
+    }
+
+    public function getFinalApproveNonSbiRentList($scheme_id)
+    {
+        $rentDetails = RentDetail::leftjoin('tenants_details', 'rent_details.tenant_id', '=', 'tenants_details.id')
+        ->where('rent_details.scheme_id', $scheme_id)
+        ->where('rent_details.overall_status', 'Approved')
+        ->where('tenants_details.bank_name', 'NOT LIKE', '%sbi%')
+        ->orderBy('rent_details.id', 'desc')
+        ->select(
+            'tenants_details.name_of_tenant', 
+            'tenants_details.bank_account_no', 
+            'tenants_details.ifsc_code',
+            'tenants_details.bank_name',
+            'rent_details.rent_paid',
+        )->get();
+
+        return view('FinanceApproval.approve_non_sbi_list')->with([
+            'rentDetails' => $rentDetails,
+            'scheme_id' => $scheme_id
+        ]);
+    }
+
     
 }

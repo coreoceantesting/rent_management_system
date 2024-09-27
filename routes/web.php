@@ -73,6 +73,9 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('/get-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getRentList'])->name('getRentList');
     Route::get('/get-sbi-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getSbiRentList'])->name('getSbiRentList');
     Route::get('/get-non-sbi-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getNonSbiRentList'])->name('getNonSbiRentList');
+    Route::get('/all-approved-list', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getAllApprove'])->name('getAllApprove');
+    Route::get('/get-final-sbi-approve-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getFinalApproveSbiRentList'])->name('getFinalApproveSbiRentList');
+    Route::get('/get-final-non-sbi-approve-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getFinalApproveNonSbiRentList'])->name('getFinalApproveNonSbiRentList');
 
     // finance department Approval
     Route::post('/finance-clerk-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'financeClerkApproveAll'])->name('financeClerkApproveAll');
@@ -82,6 +85,8 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::post('/account-officer-one-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'accountOfficerOneApproveAll'])->name('accountOfficerOneApproveAll');
     Route::post('/dy-accountant-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'dyAccountantApproveAll'])->name('dyAccountantApproveAll');
     Route::post('/final-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'finalApproveAll'])->name('finalApproveAll');
+    Route::post('/sbi-cheque-details', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'addSbiChequeDetails'])->name('addSbiChequeDetails');
+    Route::post('/non-sbi-cheque-details', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'addNonSbiChequeDetails'])->name('addNonSbiChequeDetails');
 
 
     // check balance

@@ -116,12 +116,23 @@
                     </li>
                 @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('financeSectionList') }}" >
-                        <i class="ri-task-line"></i>
-                        <span data-key="t-dashboards">Approval For Finance Section</span>
-                    </a>
-                </li>
+                @can('finance.approvalSection')
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('financeSectionList') }}" >
+                            <i class="ri-task-line"></i>
+                            <span data-key="t-dashboards">Approval For Finance Section</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('finance.finalApprovalList')
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('getAllApprove') }}" >
+                            <i class="ri-task-line"></i>
+                            <span data-key="t-dashboards">Final Approved List</span>
+                        </a>
+                    </li>
+                @endcan
                     
             </ul>
         </div>

@@ -159,6 +159,17 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'HOD.rentApporval',
                 'group' => 'HOD',
             ],
+            [
+                'id' => 30,
+                'name' => 'finance.approvalSection',
+                'group' => 'Finance',
+            ],
+
+            [
+                'id' => 31,
+                'name' => 'finance.finalApprovalList',
+                'group' => 'Finance',
+            ],
         ];
 
         foreach ($permissions as $permission)
