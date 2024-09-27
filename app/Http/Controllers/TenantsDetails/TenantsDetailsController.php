@@ -1039,5 +1039,19 @@ class TenantsDetailsController extends Controller
         ]);
     }
 
+    public function view_cheque_list($schemeId)
+    {
+        $cheque_lists = DB::table('cheque_details')->where('scheme_id', $schemeId)->latest()->get([
+            'cheque_no',
+            'cheque_date',
+            'amount',
+            'bank_name'
+        ]);
+
+        return response()->json([
+            'cheque_lists' => $cheque_lists,
+        ]);
+    }
+
     
 }

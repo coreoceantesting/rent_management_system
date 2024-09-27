@@ -77,6 +77,8 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('/get-final-sbi-approve-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getFinalApproveSbiRentList'])->name('getFinalApproveSbiRentList');
     Route::get('/get-final-non-sbi-approve-rent-list/{scheme_id}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'getFinalApproveNonSbiRentList'])->name('getFinalApproveNonSbiRentList');
 
+    Route::get('/view-cheque-list/{schemeId}', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'view_cheque_list'])->name('view_cheque_list');
+
     // finance department Approval
     Route::post('/finance-clerk-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'financeClerkApproveAll'])->name('financeClerkApproveAll');
     Route::post('/assistant-account-officer-two-approve-all', [App\Http\Controllers\TenantsDetails\TenantsDetailsController::class, 'assistantAccountOfficerTwoApproveAll'])->name('assistantAccountOfficerTwoApproveAll');
