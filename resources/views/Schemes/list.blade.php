@@ -73,7 +73,9 @@
                                                 <button class="btn btn-sm btn-dark uploaded-payment-slip-list px-2 py-1" title="Uploaded Payment Slip List" data-id="{{ $list->id }}"><i class="ri-file-list-line"></i> Payment Slips</button>
                                                 
                                                 @if (auth()->user()->roles->pluck('name')[0] == 'Finance Clerk')
-                                                    <button class="btn btn-sm btn-primary update-final-amount px-2 py-1" title="Update Final Amount" data-id="{{ $list->id }}"><i class="ri-file-add-line"></i> Update Final Amount</button>
+                                                    @if (!empty($list->demand_amount))
+                                                        <button class="btn btn-sm btn-primary update-final-amount px-2 py-1" title="Update Final Amount" data-id="{{ $list->id }}"><i class="ri-file-add-line"></i> Update Final Amount</button>
+                                                    @endif
                                                 @endif
 
                                                 @can('SchemeDetails.view')
@@ -150,19 +152,19 @@
                             <input type="hidden" id="scheme_id_new" name="scheme_id_new" value="">
 
                             <div class="col-8 mx-auto my-2">
-                                <label class="col-form-label" for="scheme_name">Scheme Name <span class="text-danger">*</span></label>
+                                <label class="col-form-label" for="scheme_name">Scheme Name</label>
                                 <input class="form-control" type="text" name="scheme_name" id="scheme_name" placeholder="Enter Scheme Name" readonly>
                                 <span class="text-danger is-invalid scheme_name_err"></span>
                             </div>
 
                             <div class="col-8 mx-auto my-2">
-                                <label class="col-form-label" for="scheme_propsal_no">Scheme Proposal Number<span class="text-danger">*</span></label>
+                                <label class="col-form-label" for="scheme_propsal_no">Scheme Proposal Number</label>
                                 <input class="form-control" type="number" name="scheme_propsal_no" id="scheme_propsal_no" placeholder="Enter Scheme Proposal Number" readonly>
                                 <span class="text-danger is-invalid scheme_propsal_no_err"></span>
                             </div>
 
                             <div class="col-8 mx-auto my-2">
-                                <label class="col-form-label" for="developer_name">Developer Name <span class="text-danger">*</span></label>
+                                <label class="col-form-label" for="developer_name">Developer Name</label>
                                 <input class="form-control" type="text" name="developer_name" id="developer_name" placeholder="Enter Developer Name" readonly>
                                 <span class="text-danger is-invalid developer_name_err"></span>
                             </div>
@@ -255,7 +257,7 @@
 
                             <div class="col-8 mx-auto my-2">
                                 <label class="col-form-label" for="final_amount">Update Final Amount <span class="text-danger">*</span></label>
-                                <input class="form-control" type="number" name="final_amount" id="final_amount" placeholder="Enter Final Amount">
+                                <input class="form-control" type="number" name="final_amount" id="final_amount" placeholder="Enter Final Amount" required>
                                 <span class="text-danger is-invalid final_amount_err"></span>
                             </div>
 
@@ -572,19 +574,21 @@
                         tableHtml += '<thead><tr>';
                         tableHtml += '<th scope="col">Uploaded Payment Slip</th>';
                         tableHtml += '<th scope="col">Uploaded On</th>';
+                        tableHtml += '<th scope="col">Remark</th>';
                         tableHtml += '</tr></thead>';
                         tableHtml += '<tbody>';
-                        // Loop through payment slip details
+
                         data.payment_slip_lists.forEach(function(list) {
                             tableHtml += '<tr>';
                             tableHtml += '<td>';
-                            if (list.payment_slip) {  // Check if payment slip exists
+                            if (list.payment_slip) {
                                 tableHtml += '<a href="/storage/' + list.payment_slip + '" target="_blank">View Payment Slip</a>';
                             } else {
                                 tableHtml += 'NA';
                             }
                             tableHtml += '</td>';
                             tableHtml += '<td>' + list.upload_on + '</td>';
+                            tableHtml += '<td>' + list.remark + '</td>';
                             tableHtml += '</tr>';
                         });
                         tableHtml += '</tbody></table>';
@@ -592,11 +596,10 @@
                         tableHtml += '<h3 class="text-center">No Data Available</h3>';
                     }
 
-                    // Display table in the modal
                     $('#viewPaymentList').html(tableHtml);
                     $('#payment-slips-list-modal').modal('show');
 
-                }, // <-- Removed the extra closing parenthesis here
+                },
                 error: function(error) {
                     console.log(error);
                 }
