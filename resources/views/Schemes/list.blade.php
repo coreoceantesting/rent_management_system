@@ -159,7 +159,7 @@
 
                             <div class="col-8 mx-auto my-2">
                                 <label class="col-form-label" for="scheme_propsal_no">Scheme Proposal Number</label>
-                                <input class="form-control" type="number" name="scheme_propsal_no" id="scheme_propsal_no" placeholder="Enter Scheme Proposal Number" readonly>
+                                <input class="form-control" type="text" name="scheme_propsal_no" id="scheme_propsal_no" placeholder="Enter Scheme Proposal Number" readonly>
                                 <span class="text-danger is-invalid scheme_propsal_no_err"></span>
                             </div>
 

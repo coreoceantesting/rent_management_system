@@ -29,7 +29,7 @@
                             <td>{{ $scheme_details->scheme_address }}</td>
                         </tr>
                         <tr>
-                            <th>Scheme CST Number</th>
+                            <th>Scheme CTS Number</th>
                             <td>{{ $scheme_details->scheme_cst_number }}</td>
                             <th>Scheme Proposal Number</th>
                             <td>{{ $scheme_details->scheme_proposal_number }}</td>
