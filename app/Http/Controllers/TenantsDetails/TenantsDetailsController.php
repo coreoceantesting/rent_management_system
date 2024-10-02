@@ -963,7 +963,7 @@ class TenantsDetailsController extends Controller
                 'cheque_no' => $cheque_no,
                 'cheque_date' => $cheque_date,
                 'amount' => $amount,
-                'bank_name' => 'Other',
+                'bank_name' => 'Non SBI',
                 'created_at' => now(),
                 'created_by' => auth()->user()->id
             ]);
