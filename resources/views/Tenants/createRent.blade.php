@@ -20,16 +20,6 @@
                                     <input class="form-control" type="text" name="rent_given_by_developer" id="rent_given_by_developer" placeholder="Enter Rent Given By Developer Till Date" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="monthly_rent" class="form-label">Monthly Rent <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" name="monthly_rent" id="monthly_rent" placeholder="Enter Monthly Rent" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="rent_paid" class="form-label">Rent Paid <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" name="rent_paid" id="rent_paid" placeholder="Enter Rent Paid" required>
-                                    <small id="balance-check-message" class="text-danger"></small>
-                                </div>
-
-                                <div class="col-md-4">
                                     <label for="month" class="form-label">Months<span class="text-danger">*</span></label>
                                     <select class="form-control" name="month" id="month">
                                         <option value="">Select Month</option>
@@ -37,6 +27,15 @@
                                             <option value="{{ $month }}">{{ $month }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="monthly_rent" class="form-label">Monthly Rent <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="monthly_rent" id="monthly_rent" placeholder="Enter Monthly Rent" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="rent_paid" class="form-label">Rent Paid <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="rent_paid" id="rent_paid" placeholder="Enter Rent Paid" required>
+                                    <small id="balance-check-message" class="text-danger"></small>
                                 </div>
 
                                 <div class="col-md-4">
