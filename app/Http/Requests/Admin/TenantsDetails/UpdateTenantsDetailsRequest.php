@@ -39,6 +39,7 @@ class UpdateTenantsDetailsRequest extends FormRequest
             'branch_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'upload_annexure' => 'nullable',
             'upload_rent_agreement' => 'nullable',
+            'bank_passbook' => 'nullable',
         ];
     }
 }

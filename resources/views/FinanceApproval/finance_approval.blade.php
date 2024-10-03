@@ -30,7 +30,7 @@
                                             <td>{{ $list->final_amount ?? 'NA' }}</td>
                                             <td>
                                                 <a href="{{ route('getRentList', $list->scheme_id) }}" class="view-details btn btn-sm btn-primary">View Tenants Details</a>
-                                                @if (auth()->user()->roles->pluck('name')[0] == 'Dy Accountant')
+                                                @if (auth()->user()->roles->pluck('name')[0] == 'Dy Accountant' || auth()->user()->roles->pluck('name')[0] == 'Account Officer 1')
                                                     <a href="{{ route('getSbiRentList', $list->scheme_id) }}" class="view-details btn btn-sm btn-info">SBI</a>
                                                     <a href="{{ route('getNonSbiRentList', $list->scheme_id) }}" class="view-details btn btn-sm btn-success">NON SBI</a>
                                                 @endif

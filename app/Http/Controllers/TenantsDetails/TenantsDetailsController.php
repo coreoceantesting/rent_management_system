@@ -82,6 +82,12 @@ class TenantsDetailsController extends Controller
                 $input['upload_rent_agreement'] = $DocPath_new;
             } 
 
+            if ($request->hasFile('bank_passbook')) {
+                $Doc_new_passbook = $request->file('bank_passbook');
+                $DocPath_new_passbook = $Doc_new_passbook->store('bank_passbook', 'public');
+                $input['bank_passbook'] = $DocPath_new_passbook;
+            }
+
             $tenant = TenantsDetail::create($input);
             DB::commit();
 
@@ -158,6 +164,17 @@ class TenantsDetailsController extends Controller
                 $Doc_new = $request->file('upload_rent_agreement');
                 $DocPath_new = $Doc_new->store('upload_rent_agreement', 'public');
                 $input['upload_rent_agreement'] = $DocPath_new;
+            }
+
+            if ($request->hasFile('bank_passbook')) {
+
+                if (!empty($tenantsDetail->bank_passbook)) {
+                    Storage::disk('public')->delete($tenantsDetail->bank_passbook);
+                }
+
+                $Doc_new_passbook = $request->file('bank_passbook');
+                $DocPath_new_passbook = $Doc_new_passbook->store('bank_passbook', 'public');
+                $input['bank_passbook'] = $DocPath_new_passbook;
             }
 
             $tenantsDetail->update($input);

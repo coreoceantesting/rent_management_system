@@ -102,6 +102,13 @@
                                 <span class="text-danger is-invalid branch_name_err"></span>
                             </div>
 
+                            <div class="col-md-4">
+                                <label class="col-form-label" for="bank_passbook">Upload Bank Passbook <span class="text-danger">*</span></label>
+                                <input class="form-control" id="bank_passbook" name="bank_passbook" type="file">
+                                <a href="{{ asset('storage/' . $tenants_details->bank_passbook) }}" target="_blank">View Document</a>
+                                <span class="text-danger is-invalid bank_passbook_err"></span>
+                            </div>
+
                         </div>
 
                     </div>

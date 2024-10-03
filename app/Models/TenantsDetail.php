@@ -25,6 +25,7 @@ class TenantsDetail extends Model
         'demolished_date',
         'upload_annexure',
         'upload_rent_agreement',
+        'bank_passbook',
         'bank_account_no',
         'bank_name',
         'ifsc_code',

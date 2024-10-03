@@ -39,6 +39,7 @@ class StoreTenantsDetailsRequest extends FormRequest
             'branch_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'upload_annexure' => 'required',
             'upload_rent_agreement' => 'required',
+            'bank_passbook' => 'required',
         ];
     }
 }
