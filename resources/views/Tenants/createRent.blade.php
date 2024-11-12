@@ -133,6 +133,9 @@
                         if (response.status === 'insufficient') {
                             $('#balance-check-message').text('Insufficient balance. Available Balance Is: ' + response.balance);
                             $('#addSubmit').attr("disabled", true);
+                        } else if(response.status === 'amountNotAdded'){
+                            $('#balance-check-message').text('Insufficient balance. Available Balance Is: ' + response.balance);
+                            $('#addSubmit').attr("disabled", true);
                         } else {
                             $('#balance-check-message').text(''); 
                             $('#addSubmit').attr("disabled", false);

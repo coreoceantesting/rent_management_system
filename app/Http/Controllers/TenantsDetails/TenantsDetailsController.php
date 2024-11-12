@@ -593,7 +593,12 @@ class TenantsDetailsController extends Controller
 
         $tenant = TenantsDetail::find($tenantId);
         $availableBal = SchemeDetail::where('scheme_id', $tenant->scheme_name)->first(['final_amount']);
-        $availableBalance = $availableBal->final_amount; 
+        $availableBalance = $availableBal->final_amount;
+        
+        if(empty($availableBalance))
+        {
+            return response()->json(['status' => 'amountNotAdded', 'balance' => '0']);
+        }
 
         if ($rentPaid > $availableBalance) {
             return response()->json(['status' => 'insufficient', 'balance' => $availableBalance]);
